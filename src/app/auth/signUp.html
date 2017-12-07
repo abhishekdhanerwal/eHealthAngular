@@ -1,0 +1,95 @@
+<!-- start: LOGIN -->
+<div class="row">
+  <div
+    class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">
+    <div class="logo text-center">
+      <img src="/images/informage-logo.jpg" alt="{{app.name}}" class="img-responsive"/>
+    </div>
+    <p class="text-center text-dark text-bold text-extra-large margin-top-15">
+      Welcome to Informage Energy
+    </p>
+    <p class="text-center">
+      Please enter your Username and password to log in.
+    </p>
+    <!-- start: LOGIN BOX -->
+    <div class="box-login" name="vm.Form" role="Form" id="Form" novalidate>
+      <ng-form class="form-login">
+        <div class="form-group"
+             ng-class="{'has-error':vm.Form.firstName.$dirty && vm.Form.firstName.$invalid, 'has-success':vm.Form.firstName.$valid}">
+          <label class="control-label"> Name <span class="symbol required"></span> </label>
+          <input type="text" placeholder="Enter your Name" class="form-control" name="firstName"
+                 ng-model="vm.user.name" ng-pattern="/^[a-zA-Z\s]*$/" required/>
+          <span class="error text-small block" ng-if="vm.Form.firstName.$error.pattern">Invalid characters</span>
+          <span class="error text-small block" ng-if="vm.Form.firstName.$dirty && vm.Form.firstName.$error.required">
+                    Name is required</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error':vm.Form.email.$dirty && vm.Form.email.$invalid, 'has-success':vm.Form.email.$valid}">
+          <label class="control-label"> Email <span class="symbol required"></span> </label>
+          <input type="email" placeholder="Enter a valid E-mail" class="form-control"
+                 name="email"
+                 ng-model="vm.user.email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+          <span class="error text-small block" ng-if="vm.Form.email.$dirty && vm.Form.email.$error.required">Email is required.</span>
+          <span class="error text-small block" ng-if="vm.Form.email.$error.email">Please, enter a valid email address.</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error':vm.Form.mobile.$dirty && vm.Form.mobile.$invalid, 'has-success':vm.Form.mobile.$valid}">
+          <label class="control-label"> Mobile Number <span class="symbol required"></span> </label>
+          <input type="text" placeholder="Enter your Mobile Number" class="form-control" name="mobile"
+                 ng-model="vm.user.mobile" ng-pattern="/^[0-9]*$/" ng-minlength=10
+                 ng-maxlength=10 required/>
+          <span class="error text-small block"
+                ng-if="vm.Form.mobile.$error.minlength || vm.Form.mobile.$error.maxlength">Please enter a 10 digit number.</span>
+          <span class="error text-small block" ng-if="vm.Form.mobile.$dirty && vm.Form.mobile.$invalid">Please enter a valid Mobile number</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error':vm.Form.newPassword.$dirty && vm.Form.newPassword.$invalid, 'has-success':vm.Form.newPassword.$valid}">
+          <label class="control-label"> New Password <span class="symbol required"></span> </label>
+          <input type="password" placeholder="Enter a Password" class="form-control" name="newPassword"
+                 ng-model="vm.newPassword" ng-minlength=6 required/>
+          <span class="error text-small block"
+                ng-if="vm.Form.newPassword.$dirty && vm.Form.newPassword.$error.required">New Password is required</span>
+          <span class="error text-small block" ng-if="vm.Form.newPassword.$error.minlength">New Password should be six characters or more </span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error':vm.Form.password2.$dirty && vm.Form.password2.$error.compareTo || vm.Form.password2.$dirty && vm.Form.password2.$invalid, 'has-success':vm.Form.password2.$valid}">
+          <label class="control-label"> Repeat Password <span class="symbol required"></span> </label>
+          <input type="password" placeholder="Repeat Password" class="form-control" name="password2"
+                 ng-model="vm.password2" compare-to="vm.newPassword" required/>
+          <span class="error text-small block"
+                ng-if="vm.Form.password2.$dirty && vm.Form.password2.$error.required">Repeat Password is required</span>
+          <span class="error text-small block"
+                ng-if="vm.Form.password2.$dirty && vm.Form.password2.$error.compareTo">Passwords do not match</span>
+        </div>
+        <!--<div class="form-group">-->
+
+          <!--<input type="password" class="form-control password" name="password" placeholder="Password"-->
+                 <!--ng-model="vm.user.password">-->
+
+        <!--</div>-->
+        <div class="text-center">
+          <a ui-sref="auth.forgot"> Forgot Password </a>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success btn-block" ng-click="vm.submit()">
+            SignUp
+          </button>
+        </div>
+        <a ui-sref="login.signin"><button type="submit" class="btn btn-primary btn-block">
+          SignIn
+        </button></a>
+      </ng-form>
+      <!-- start: COPYRIGHT -->
+      <div class="copyright">
+        {{app.year}} &copy; {{ app.name }} by Informage Energy.
+      </div>
+      <!-- end: COPYRIGHT -->
+    </div>
+    <!-- end: LOGIN BOX -->
+  </div>
+</div>
+<!-- end: LOGIN -->

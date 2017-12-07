@@ -1,0 +1,75 @@
+<!-- start: LOGIN -->
+<div class="row">
+  <div
+    class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">
+    <div class="logo text-center">
+      <img src="/images/informage-logo.jpg" alt="{{app.name}}" class="img-responsive"/>
+    </div>
+    <p class="text-center text-dark text-bold text-extra-large margin-top-15">
+      Welcome to Informage Energy
+    </p>
+    <p class="text-center">
+      Please enter your Username and password to log in.
+    </p>
+    <!-- start: LOGIN BOX -->
+    <div class="box-login">
+      <form class="form-login">
+        <div class="form-group">
+          <input type="text" class="form-control" name="username" placeholder="Username" ng-model="vm.user.email">
+        </div>
+        <div class="form-group form-actions">
+
+          <input type="password" class="form-control password" name="password" placeholder="Password"
+                 ng-model="vm.user.password">
+
+        </div>
+        <div class="text-center">
+          <a ui-sref="auth.forgot"> Forgot Password </a>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success btn-block" ng-click="vm.submit()">
+            SignIn
+          </button>
+
+          <div class="checkbox clip-check check-primary">
+            <input type="checkbox" id="remember" value="1" ng-model="vm.rememberMe">
+            <label for="remember"> Keep me signed in </label>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-transparent">
+            <div class="panel-heading">
+              <div class="panel-title">
+                Login via Social Media
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="social-icons">
+                <ul>
+                  <li class="social-twitter" uib-tooltip="Twitter" tooltip-placement="top">
+                    <a target="_blank" href="#"> Twitter </a>
+                  </li>
+                  <li class="social-facebook" ng-click="vm.authenticate('facebook')" uib-tooltip="Facebook" tooltip-placement="top">
+                    <a target="_blank" href="#"> Facebook </a>
+                  </li>
+                  <li class="social-google" ng-click="vm.authenticate('google')" uib-tooltip="Google" tooltip-placement="top">
+                    <a target="_blank" href="#"> Google+ </a>
+                  </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- start: COPYRIGHT -->
+      <div class="copyright">
+        {{app.year}} &copy; {{ app.name }} by Informage Energy.
+      </div>
+      <!-- end: COPYRIGHT -->
+    </div>
+    <!-- end: LOGIN BOX -->
+  </div>
+</div>
+<!-- end: LOGIN -->

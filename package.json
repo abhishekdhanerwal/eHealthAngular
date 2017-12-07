@@ -1,0 +1,71 @@
+{
+  "name": "angular-starter-kit",
+  "description": "Starter Kit for Angular 1.5+ projects",
+  "version": "1.4.0",
+  "author": "Andrea SonnY <andreasonny83@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andreasonny83/angular-starter-kit"
+  },
+  "bugs": {
+    "url": "https://github.com/andreasonny83/angular-starter-kit/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bower": "^1.5.2",
+    "browser-sync": "^2.18.13",
+    "del": "^3.0.0",
+    "express": "^4.16.2",
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-size": "^2.1.0",
+    "karma": "^1.7.1",
+    "run-sequence": "^2.2.0",
+    "wiredep": "^4.0.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-compass": "^1.0.4",
+    "grunt-string-replace": "^1.2.1",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-uglify": "^0.11.0",
+    "gruntfile-gtx": "^0.3.0",
+    "http-server": "^0.6.1",
+    "require-directory": "^2.0.0"
+  },
+  "engines": {
+    "node": "6.11.x",
+    "npm": "3.10.x"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "start": "gulp serve",
+    "test": "karma start karma.conf.js",
+    "test-single-run": "karma start karma.conf.js --single-run",
+    "update-webdriver": "webdriver-manager update",
+    "prestartserver": "npm run update-webdriver && npm run build",
+    "startserver": "http-server -a localhost -p 8000 -c-1 ./dist > /dev/null &",
+    "preprotractor": "npm run update-webdriver",
+    "protractor": "protractor protractor.conf.js",
+    "build": "gulp build",
+    "serve:dist": "gulp serve:dist"
+  },
+  "eslintConfig": {
+    "extends": [
+      "google"
+    ],
+    "globals": {
+      "angular": true,
+      "inject": true
+    },
+    "env": {
+      "browser": true,
+      "jasmine": true,
+      "protractor": true
+    }
+  }
+}
