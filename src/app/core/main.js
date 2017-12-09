@@ -43,7 +43,7 @@ function ($rootScope, $state, $stateParams , $localStorage,$http ) {
         picture: 'app/img/user/02.jpg'
     };
 
-    if($localStorage.__identity.token)
+    if($localStorage.__identity != undefined && $localStorage.__identity.token)
 	$http.defaults.headers.common['Authorization'] = 'Bearer ' + $localStorage.__identity.token;
 }]);
 
