@@ -44,7 +44,7 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
     // APPLICATION ROUTES
     // -----------------------------------
     // For any unmatched url, redirect to /app/dashboard
-    $urlRouterProvider.otherwise("/login/singup");
+    $urlRouterProvider.otherwise("/login/signin");
     //
     // Set up the states
     $stateProvider.state('app', {
@@ -52,6 +52,40 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         templateUrl: "app/layout/app.html",
         resolve: loadSequence(),
         abstract: true
+    }).state('app.product', {
+        url: "/products",
+        template: '<div ui-view class="fade-in-up"></div>',
+        title: 'Products',
+        ncyBreadcrumb: {
+            label: 'Products'
+        }
+    }).state('app.product.add', {
+        url: "/add",
+        templateUrl: "app/product/addProduct.html",
+        controller: 'NewProductCtrl',
+        controllerAs: 'vm',
+        title: 'New',
+        ncyBreadcrumb: {
+            label: 'New'
+        }
+    }).state('app.product.list', {
+        url: "/list",
+        templateUrl: "app/product/listProduct.html",
+        controller: 'ListProductCtrl',
+        controllerAs: 'vm',
+        title: 'List',
+        ncyBreadcrumb: {
+            label: 'List'
+        }
+    }).state('app.product.edit', {
+        url: "/edit/:id",
+        templateUrl: "app/product/editProduct.html",
+        controller: 'EditProductCtrl',
+        controllerAs: 'vm',
+        title: 'Edit',
+        ncyBreadcrumb: {
+            label: 'Edit'
+        }
     }).state('app.addVideo', {
         url: "/new",
         templateUrl: "app/channel/addNew.html",
@@ -87,12 +121,14 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
 	    url: '/login',
 	    template: '<div ui-view class="fade-in-left-big smooth"></div>',
 	    abstract: true
-	}).state('login.signup', {
-      url: '/singup',
-      templateUrl: "app/auth/signUp.html",
-      controller:"SignupCtrl",
-      controllerAs: "vm"
-    }).state('login.signin', {
+	})
+    //     .state('login.signup', {
+    //   url: '/singup',
+    //   templateUrl: "app/auth/signUp.html",
+    //   controller:"SignupCtrl",
+    //   controllerAs: "vm"
+    // })
+        .state('login.signin', {
 	    url: '/signin',
 	    templateUrl: "app/auth/login_login.html",
       controller:"LoginCtrl",

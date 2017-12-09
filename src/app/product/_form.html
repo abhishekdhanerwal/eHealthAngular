@@ -1,0 +1,89 @@
+<ng-form name="vm.form" role="form" id="form" novalidate>
+    <fieldset>
+        <legend>
+            Product Info
+        </legend>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.name.$dirty && vm.form.name.$invalid, 'has-success':vm.form.name.$valid}">
+                    <label class="control-label">
+                        Product Name <span class="symbol required"></span>
+                    </label>
+                    <input type="text" placeholder="Product name" class="form-control" name="name"
+                           ng-model="vm.product.name" ng-pattern="/^[a-zA-Z\s]*$/" required>
+                    <span class="error text-small block"
+                          ng-if="vm.form.name.$dirty && vm.form.name.$error.required">Product Name is required</span>
+                    <span class="error text-small block" ng-if="vm.form.name.$error.pattern">Invalid Characters</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.price.$dirty && vm.form.price.$invalid, 'has-success':vm.form.price.$valid}">
+                    <label class="control-label">
+                        Price (&#8377;) <span class="symbol required"></span>
+                    </label>
+                    <input type="number" placeholder="Enter price of product" class="form-control"
+                           name="price"
+                           ng-model="vm.product.price" ng-pattern="/^[1-9][0-9]*$/" required/>
+                    <span class="error text-small block"
+                          ng-if="vm.form.price.$dirty && vm.form.price.$error.required">Price is required</span>
+                    <span class="error text-small block" ng-if="vm.form.price.$error.pattern">Invalid Characters</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.description.$dirty && vm.form.description.$invalid, 'has-success':vm.form.description.$valid}">
+                    <label class="control-label"> Description </label>
+                    <textarea class="form-control custom-control" rows="3" name="description" style="resize:none" ng-model="vm.product.description"
+                    ></textarea>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+                <div class="form-group margin-left-25">
+
+                    <label class="control-label"> Product Image </label><br>
+
+                    <img style="width:100px;" ngf-thumbnail="vm.file || 'images/eHealth/default_product_icon.png'"/><br><br>
+
+                    <input
+                            type="file"
+                            ngf-select="vm.submitImage()"
+                            ng-model="vm.file"
+                            name="file"
+                            ngf-pattern="'image/*'"
+                            accept="image/*"
+                            ngf-max-size="20MB"
+                    />
+                    <i ng-show="vm.form.file.$error.required">*required</i><br>
+                    <i ng-show="vm.form.file.$error.maxSize">File too large
+                        {{vm.file.size / 1000000|number:1}}MB: max 20M</i>
+                    <!--<button type="submit" ng-click="vm.submit()">submit</button>-->
+                    <p>{{vm.progress}}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </fieldset>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="submit" ng-disabled="vm.submitDisabled" class="btn btn-wide btn-success"
+                        ng-click="vm.submit()">
+                    Save
+                </button>
+                <button type="reset" ng-disabled="vm.resetDisabled" class="btn btn-wide btn-warning"
+                        ng-click="vm.reset()">
+                    Reset
+                </button>
+                <a ui-sref="app.product.list" class="btn btn-wide btn-danger">
+                Back
+                </a>
+            </div>
+        </div>
+    </div>
+</ng-form>

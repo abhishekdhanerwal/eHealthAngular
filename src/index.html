@@ -52,6 +52,7 @@
     <!-- Packet CSS -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/eHealth.css">
 
     <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.css" />
 
@@ -154,6 +155,9 @@
 
     <script src="bower_components/satellizer/dist/satellizer.js"></script>
 
+    <script src="bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+    <script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+
     <script src="app/env.js"></script>
 
     <!-- Packet Scripts -->
@@ -199,6 +203,13 @@
     <script src="app/auth/login.controller.js"></script>
     <script src="app/auth/logout.controller.js"></script>
     <script src="app/auth/signup.controller.js"></script>
+    <script src="app/auth/validationHelperFactory.js"></script>
+
+    <script src="app/product/product.module.js"></script>
+    <script src="app/product/productNew.controller.js"></script>
+    <script src="app/product/productList.controller.js"></script>
+    <script src="app/product/productEdit.controller.js"></script>
+    <script src="app/product/product.service.js"></script>
 
 
 

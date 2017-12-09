@@ -3,5 +3,7 @@
 #ui ignores
 node_modules
 src/bower_components
+bower_components
+
 
 #backend ignore

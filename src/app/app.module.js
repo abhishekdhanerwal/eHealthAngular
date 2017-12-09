@@ -4,6 +4,7 @@
     angular.module('app.core', [
         'auth',
         'app.layout',
-        'app.channel'
+        'app.channel',
+        'app.product'
     ]);
 })();

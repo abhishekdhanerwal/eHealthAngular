@@ -7,13 +7,33 @@
         <a ui-sref="app.dashboard">
             <div class="item-content">
                 <div class="item-media">
-                    <letter-icon data="Dashboard" char-count="2" size="sm"></letter-icon>
+                    <letter-icon data="My Profile" char-count="2" size="sm"></letter-icon>
                 </div>
                 <div class="item-inner">
-                    <span class="title"> Dashboard </span>
+                    <span class="title"> My Profile </span>
                 </div>
             </div>
         </a>
+    </li>
+    <li ng-class="{'active open':$state.includes('app.product')}" >
+        <a href="javascript:void(0)">
+            <div class="item-content">
+                <div class="item-media">
+                    <letter-icon data="Products" char-count="1" size="sm"></letter-icon>
+                </div>
+                <div class="item-inner">
+                    <span class="title">Products</span><i class="icon-arrow"></i>
+                </div>
+            </div>
+        </a>
+        <ul class="sub-menu">
+            <li ui-sref-active="active" >
+                <a ui-sref="app.product.add"> <span class="title"> Add New </span> </a>
+            </li>
+            <li ui-sref-active="active" >
+                <a ui-sref="app.product.list"> <span class="title" > List Products </span> </a>
+            </li>
+        </ul>
     </li>
   <li ui-sref-active="active">
     <a ui-sref="app.channelList">

@@ -2,8 +2,8 @@
   'use strict';
 
   angular.module('app.channel', [
-
-    'ngTable'
+    'ngTable',
+    'ngFileUpload'
 
   ]);
 })();

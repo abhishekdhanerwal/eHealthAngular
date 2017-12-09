@@ -1,6 +1,6 @@
 var app = angular.module('app', ['packet']);
-app.run(['$rootScope', '$state', '$stateParams',
-function ($rootScope, $state, $stateParams) {
+app.run(['$rootScope', '$state', '$stateParams','$localStorage' , '$http',
+function ($rootScope, $state, $stateParams , $localStorage,$http ) {
 
     // Attach Fastclick for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers
     FastClick.attach(document.body);
@@ -42,6 +42,9 @@ function ($rootScope, $state, $stateParams) {
         job: 'ng-Dev',
         picture: 'app/img/user/02.jpg'
     };
+
+    if($localStorage.__identity.token)
+	$http.defaults.headers.common['Authorization'] = 'Bearer ' + $localStorage.__identity.token;
 }]);
 
 // app.config(httpConfigurer);
@@ -97,7 +100,7 @@ function (cfpLoadingBarProvider) {
 // configuration
 app.config(function ($breadcrumbProvider) {
     $breadcrumbProvider.setOptions({
-        template: '<ul class="breadcrumb"><li><a ui-sref="app.dashboard"><i class="fa fa-home margin-right-5 text-large text-dark"></i>Home</a></li><li ng-repeat="step in steps">{{step.ncyBreadcrumbLabel}}</li></ul>'
+        template: '<ul class="breadcrumb"><li><a><i class="fa fa-home margin-right-5 text-large text-dark"></i>Home</a></li><li ng-repeat="step in steps">{{step.ncyBreadcrumbLabel}}</li></ul>'
     });
 });
 // ng-storage

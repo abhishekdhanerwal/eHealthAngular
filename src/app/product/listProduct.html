@@ -1,0 +1,83 @@
+<div class="breadcrumb-wrapper" ng-click="vm.breadcrumbRoute()">
+    <h4 class="mainTitle no-margin">Product Management</h4>
+
+    <div ncy-breadcrumb class="pull-right"></div>
+</div>
+<!-- end: BREADCRUMB -->
+
+<!--<wave-spinner ng-show="vm.progress" ></wave-spinner>-->
+<!-- start: TABLE WITH PAGINATION -->
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-body">
+                    <!--<div class="col-lg-12 col-md-12">-->
+                    <!--<div class="panel panel-white">-->
+                    <!--<div class="panel-body">-->
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-12">
+                            <a ui-sref="app.product.add"
+                               class="btn btn-wide btn-primary pull-left" href="#"><i class="ti-plus"></i> New
+                                Product</a>
+                            <a ng-click="vm.tableParams.filter({})"
+                               class="btn btn-wide btn-warning pull-right" href="#"><i class="ti-filter"></i> Clear
+                                Filters</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table ng-table="vm.tableParams" show-filter="true" class="table table-striped">
+                            <tr ng-repeat="row in $data">
+
+                                <td width="15%" class="center" data-title="'Image'">
+                                    <img ng-if="row.image.split('/')[row.image.split('/').length-1] != undefined" ng-src="{{row.image}}" width="100%" height="10%" class="img-responsive"
+                                                                            class="media-object" alt="image"/>
+                                    <img ng-if="row.image.split('/')[row.image.split('/').length-1] == undefined" ng-src="../../images/eHealth/default_product_icon.png"  class="img-responsive"
+                                         class="media-object" alt="no image"/></td>
+                                <td width="30%" data-title="'Product Name'" class="text-center" sortable="'name'" filter="{ 'name': 'text' }">
+                                    {{row.name}}
+                                </td>
+                                <td data-title="'Price'">
+                                    {{row.price}}
+                                </td>
+                                <td data-title="'Description'">
+                                    {{row.description}}
+                                </td>
+
+                                <td class="center">
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                        <a ui-sref="app.product.edit({id : row._id})" class="btn btn-transparent btn-xs"
+                                           tooltip-placement="top"
+                                           uib-tooltip="Edit"><i class="fa fa-pencil"></i></a>
+                                        <a href="#" ng-click="vm.deleteProduct(row._id)"
+                                           class="btn btn-transparent btn-xs tooltips" tooltip-placement="top"
+                                           uib-tooltip="Delete"><i class="fa fa-ban"></i></a>
+                                    </div>
+                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                        <div class="btn-group" uib-dropdown>
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                                    uib-dropdown-toggle>
+                                                <i class="fa fa-cog"></i>&nbsp;<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right dropdown-light" role="menu">
+                                                <li>
+                                                    <a href="#" ui-sref="app.product.edit({id : row._id})"> Edit </a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="vm.deleteProduct(row._id)" href="#"> Delete </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
