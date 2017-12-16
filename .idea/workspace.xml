@@ -2,28 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a121d9de-5cb2-4c4d-9d97-e5f3c2b43320" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/app/channel/addNew.controller.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/app/channel/addNew.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/app/channel/addNew.service.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/app/channel/channel.module.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/app/channel/channelList.controller.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/app/channel/channelList.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/app/channel/channelList.service.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/app.module.js" afterPath="$PROJECT_DIR$/src/app/app.module.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/auth/login.controller.js" afterPath="$PROJECT_DIR$/src/app/auth/login.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/auth/principal.service.js" afterPath="$PROJECT_DIR$/src/app/auth/principal.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/core/config.constant.js" afterPath="$PROJECT_DIR$/src/app/core/config.constant.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/core/config.router.js" afterPath="$PROJECT_DIR$/src/app/core/config.router.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/env.js" afterPath="$PROJECT_DIR$/src/app/env.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/layout/nav.html" afterPath="$PROJECT_DIR$/src/app/layout/nav.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/product/_form.html" afterPath="$PROJECT_DIR$/src/app/product/_form.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/product/listProduct.html" afterPath="$PROJECT_DIR$/src/app/product/listProduct.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/product/product.service.js" afterPath="$PROJECT_DIR$/src/app/product/product.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/product/productEdit.controller.js" afterPath="$PROJECT_DIR$/src/app/product/productEdit.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/product/productList.controller.js" afterPath="$PROJECT_DIR$/src/app/product/productList.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/product/productNew.controller.js" afterPath="$PROJECT_DIR$/src/app/product/productNew.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.html" afterPath="$PROJECT_DIR$/src/index.html" />
     </list>
     <ignored path="eHealth_Frontend.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,11 +25,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="nav.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="nav.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/layout/nav.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
+            <state relative-caret-position="301">
               <caret line="70" column="30" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="env.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/env.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -155,7 +154,6 @@
         <option value="$PROJECT_DIR$/src/app/myProfile/myProfile.html" />
         <option value="$PROJECT_DIR$/src/app/myProfile/myProfile.service.js" />
         <option value="$PROJECT_DIR$/src/app/myProfile/myProfile.controller.js" />
-        <option value="$PROJECT_DIR$/src/app/env.js" />
         <option value="$PROJECT_DIR$/src/app/auth/principal.service.js" />
         <option value="$PROJECT_DIR$/src/app/product/productList.controller.js" />
         <option value="$PROJECT_DIR$/src/app/auth/login.controller.js" />
@@ -181,6 +179,7 @@
         <option value="$PROJECT_DIR$/src/app/dietitian/dietitian.service.js" />
         <option value="$PROJECT_DIR$/src/app/dietitian/dietitianEdit.controller.js" />
         <option value="$PROJECT_DIR$/src/app/layout/nav.html" />
+        <option value="$PROJECT_DIR$/src/app/env.js" />
       </list>
     </option>
   </component>
@@ -399,7 +398,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path" value="/usr/bin/node" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../eHealthMob" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
@@ -488,16 +487,16 @@
       <workItem from="1512974606701" duration="58000" />
       <workItem from="1513013764960" duration="6011000" />
       <workItem from="1513159907483" duration="17876000" />
-      <workItem from="1513404523566" duration="3093000" />
+      <workItem from="1513404523566" duration="3584000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59868000" />
+    <option name="totallyTimeSpent" value="60359000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="57" y="21" width="1309" height="747" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -653,13 +652,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/product/editProduct.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
@@ -706,13 +698,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/env.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -893,8 +878,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/layout/nav.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
+        <state relative-caret-position="301">
           <caret line="70" column="30" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/env.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
           <folding />
         </state>
       </provider>
