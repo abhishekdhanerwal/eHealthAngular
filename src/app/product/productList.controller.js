@@ -6,9 +6,9 @@
         .module('app.product')
         .controller('ListProductCtrl', ListProductCtrl);
 
-    ListProductCtrl.$inject = ['$state' , 'Upload', 'toaster', 'productFactory' , 'NgTableParams' , '$filter' , 'SweetAlert'];
+    ListProductCtrl.$inject = ['$state' , '$timeout', 'toaster', 'productFactory' , 'NgTableParams' , '$filter' , 'SweetAlert'];
 
-    function ListProductCtrl($state , Upload  , toaster , productFactory , NgTableParams , $filter , SweetAlert) {
+    function ListProductCtrl($state , $timeout  , toaster , productFactory , NgTableParams , $filter , SweetAlert) {
         var vm = this;
         vm.product={};
 
@@ -24,7 +24,12 @@
             productFactory.findAll().then(function (response) {
                 console.log(response)
                 if (response.status == 200) {
-                    toaster.info(response.data.message);
+                    if(response.data.data.length>0){
+                        toaster.info(response.data.message);
+                    }
+                    else {
+                        toaster.info('Zero record available');
+                    }
                     vm.productList = response.data.data;
                     listView();
                 }
@@ -124,8 +129,13 @@
                             vm.progress = false;
                             var random = (new Date()).toString();
                             for (var index = 0; index < vm.productList.length; index++) {
-                                var temp = __env.dataServerUrl + '/product/' + vm.productList[index].image;
-                                vm.productList[index].image = temp;
+                                if(vm.productList[index].image != undefined){
+                                    var temp = __env.dataServerUrl + '/product/' + vm.productList[index].image;
+                                    vm.productList[index].image = temp;
+                                }
+                                else
+                                    vm.productList[index].image = null;
+
                             }
                             var filteredData = null;
                             var orderedData = null;

@@ -1,0 +1,141 @@
+<ng-form name="vm.form" role="form" id="form" novalidate>
+    <fieldset>
+        <legend>
+            Dietitian Info
+        </legend>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.name.$dirty && vm.form.name.$invalid, 'has-success':vm.form.name.$valid}">
+                    <label class="control-label">
+                        Name <span class="symbol required"></span>
+                    </label>
+                    <input type="text" placeholder="Dietitian name" class="form-control" name="name"
+                           ng-model="vm.dietitian.name" ng-pattern="/^[a-zA-Z\s]*$/" required>
+                    <span class="error text-small block"
+                          ng-if="vm.form.name.$dirty && vm.form.name.$error.required">Dietitian Name is required</span>
+                    <span class="error text-small block" ng-if="vm.form.name.$error.pattern">Invalid Characters</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.email.$dirty && vm.form.email.$invalid, 'has-success':vm.form.email.$valid}">
+                    <label class="control-label"> Email <span class="symbol required"></span> </label>
+                    <input type="email" placeholder="Enter a valid E-mail" class="form-control"
+                           name="email"
+                           ng-model="vm.dietitian.email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+                    <span class="error text-small block" ng-if="vm.form.email.$dirty && vm.form.email.$error.required">Email is required.</span>
+                    <span class="error text-small block" ng-if="vm.form.email.$error.email">Please, enter a valid email address.</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.mobile.$dirty && vm.form.mobile.$invalid, 'has-success':vm.form.mobile.$valid}">
+                    <label class="control-label"> Mobile Number <span class="symbol required"></span> </label>
+                    <input type="text" placeholder="Enter your Mobile Number" class="form-control" name="mobile"
+                           ng-model="vm.dietitian.mobile" ng-pattern="/^[0-9]*$/" ng-minlength=10
+                           ng-maxlength=10 required/>
+                    <span class="error text-small block"
+                          ng-if="vm.form.mobile.$error.minlength || vm.form.mobile.$error.maxlength">Please enter a 10 digit number.</span>
+                    <span class="error text-small block" ng-if="vm.form.mobile.$dirty && vm.form.mobile.$invalid">Please enter a valid Mobile number</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.address.$dirty && vm.form.address.$invalid, 'has-success':vm.form.address.$valid}">
+                    <label class="control-label"> Address <span class="symbol required"></span> </label>
+                    <input type="text" placeholder="Enter dietitian Address" class="form-control" name="address"
+                           ng-model="vm.dietitian.address" ng-minlength=6 ng-maxlength=500 required/>
+                    <span class="error text-small block"
+                          ng-if="vm.form.address.$dirty && vm.form.address.$error.required">Address is required</span>
+                    <span class="error text-small block"
+                          ng-show="vm.form.address.$invalid && vm.form.address.$error.minlength">Address should be six characters or more</span>
+                    <span class="error text-small block"
+                          ng-show="vm.form.address.$invalid && vm.form.address.$error.maxlength">Address should be less than 100 characters</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.description.$dirty && vm.form.description.$invalid, 'has-success':vm.form.description.$valid}">
+                    <label class="control-label"> Description </label>
+                    <textarea class="form-control custom-control" rows="3" name="description" style="resize:none" ng-model="vm.dietitian.description"
+                    ></textarea>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+                <div class="form-group margin-left-25">
+
+                    <div class="form-group"
+                         ng-class="{'has-error':vm.form.price.$dirty && vm.form.price.$invalid, 'has-success':vm.form.price.$valid}">
+                        <label class="control-label">
+                            Price (&#8377;) <span class="symbol required"></span>
+                        </label>
+                        <input type="number" placeholder="Enter hiring price of dietitian" class="form-control"
+                               name="price"
+                               ng-model="vm.dietitian.price" ng-pattern="/^[1-9][0-9]*$/" ng-change="vm.computeDiscountedPrice()" required/>
+                        <span class="error text-small block"
+                              ng-if="vm.form.price.$dirty && vm.form.price.$error.required">Price is required</span>
+                        <span class="error text-small block" ng-if="vm.form.price.$error.pattern">Invalid Characters</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">
+                            Percentage Discount %
+                        </label>
+                        <input type="number" placeholder="Enter discount on dietitian" class="form-control"
+                               name="discount"
+                               ng-model="vm.dietitian.discount" ng-change="vm.computeDiscountedPrice()" ng-pattern="/^[1-9][0-9]*$/" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">
+                            Dicounted Price (&#8377;)
+                        </label>
+                        <input type="number" placeholder="Final price of dietitian" class="form-control"
+                               name="discountPrice"
+                               ng-model="vm.dietitian.discountPrice" ng-pattern="/^[1-9][0-9]*$/" ng-readonly="true" required/>
+                    </div>
+
+                    <label class="control-label"> Product Image </label><br>
+
+                    <img style="width:100px;" ngf-thumbnail="vm.file || 'images/eHealth/default_product_icon.png'"/><br><br>
+
+                    <input
+                            type="file"
+                            ngf-select="vm.submitImage()"
+                            ng-model="vm.file"
+                            name="file"
+                            ngf-pattern="'image/*'"
+                            accept="image/*"
+                            ngf-max-size="20MB"
+                    />
+                    <i ng-show="vm.form.file.$error.required">*required</i><br>
+                    <i ng-show="vm.form.file.$error.maxSize">File too large
+                        {{vm.file.size / 1000000|number:1}}MB: max 20M</i>
+                    <!--<button type="submit" ng-click="vm.submit()">submit</button>-->
+                    <p>{{vm.progress}}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </fieldset>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-wide btn-success"
+                        ng-click="vm.submit()">
+                    Save
+                </button>
+                <button type="reset" class="btn btn-wide btn-warning"
+                        ng-click="vm.reset()">
+                    Reset
+                </button>
+                <a ui-sref="app.dietitian.list" class="btn btn-wide btn-danger">
+                Back
+                </a>
+            </div>
+        </div>
+    </div>
+</ng-form>

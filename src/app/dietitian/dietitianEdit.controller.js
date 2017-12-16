@@ -3,15 +3,14 @@
     'use strict';
 
     angular
-        .module('app.product')
-        .controller('NewProductCtrl', NewProductCtrl);
+        .module('app.dietitian')
+        .controller('EditDietitianCtrl', EditDietitianCtrl);
 
-    NewProductCtrl.$inject = ['$state' , 'Upload', 'toaster', 'productFactory', '$timeout' , 'validationHelperFactory'];
+    EditDietitianCtrl.$inject = ['$state' , '$stateParams', 'Upload', 'toaster', 'dietitianFactory', '$timeout' , 'validationHelperFactory'];
 
-    function NewProductCtrl($state , Upload  , toaster , productFactory , $timeout , validationHelperFactory) {
+    function EditDietitianCtrl($state , $stateParams, Upload  , toaster , dietitianFactory , $timeout , validationHelperFactory) {
         var vm = this;
-        vm.product={};
-        vm.product.discount = 0;
+        vm.dietitian={};
 
         vm.breadcrumbRoute = breadcrumbRoute;
 
@@ -19,11 +18,26 @@
             $state.go('app.notice')
         }
 
+        activate();
+
+        function activate() {
+            dietitianFactory.getDietitian($stateParams.id).then(function (response) {
+                console.log(response)
+                vm.dietitian = response.data.data;
+                if(response.data.data.profilePic)
+                    vm.file = __env.dataServerUrl + '/dietitian/'+ response.data.data.profilePic;
+            })
+        }
+
         vm.computeDiscountedPrice = function () {
-            if(vm.product.discount == undefined)
-                vm.product.discountPrice = vm.product.price;
+            if(vm.dietitian.discount == undefined)
+                vm.dietitian.discountPrice = vm.dietitian.price;
             else
-            vm.product.discountPrice = vm.product.price - (vm.product.discount*vm.product.price/100);
+                vm.dietitian.discountPrice = vm.dietitian.price - (vm.dietitian.discount*vm.dietitian.price/100);
+        };
+
+        vm.reset = function(){
+            activate();
         };
 
         vm.submit = function () {
@@ -33,12 +47,12 @@
                 return;
 
             } else {
-                if(vm.product.discount == undefined)
-                    vm.product.discount = 0;
-                productFactory.addProduct(vm.product).then(function (response) {
+                if(vm.dietitian.discount == undefined)
+                    vm.dietitian.discount=0;
+                dietitianFactory.updateDietitian(vm.dietitian).then(function (response) {
                     if (response.status == 200) {
                         toaster.info(response.data.message);
-                        $state.go('app.product.list');
+                        $state.go('app.dietitian.list');
                     }
                     else if (response.status == -1) {
                         vm.errorMessage = 'Network Error';
@@ -64,17 +78,8 @@
                         console.error(response);
                     }
                 });
-             }
+            }
         };
-
-        vm.reset = function () {
-            vm.form.$setPristine();
-            vm.form.$setUntouched();
-            vm.product = {};
-            vm.file = null;
-            vm.progress = null;
-            vm.product.discount = 0;
-        }
 
         vm.submitImage = function(){ //function to call on form submit
             if (vm.form.file.$valid && vm.file) { //check if from is valid
@@ -84,14 +89,14 @@
 
         vm.upload = function (file) {
             Upload.upload({
-                url: __env.dataServerUrl+'/product/upload', //webAPI exposed to upload the file
+                url: __env.dataServerUrl+'/dietitian/upload', //webAPI exposed to upload the file
                 data:{file:file} //pass file as data, should be user ng-model
             }).then(function (resp) {
                 console.log(resp)
                 // console.log(resp)//upload function returns a promise
                 if(resp.data.error_code === 0){ //validate success
                     // $window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
-                    vm.product.image = resp.data.file.filename;
+                    vm.dietitian.profilePic = resp.data.file.filename;
                 } else {
                     toaster.error('an error occured');
                 }

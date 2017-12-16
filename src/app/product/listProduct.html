@@ -30,18 +30,24 @@
                             <tr ng-repeat="row in $data">
 
                                 <td width="15%" class="center" data-title="'Image'">
-                                    <img ng-if="row.image.split('/')[row.image.split('/').length-1] != undefined" ng-src="{{row.image}}" width="100%" height="10%" class="img-responsive"
+                                    <img ng-if="row.image != null" ng-src="{{row.image}}" width="100%" height="10%" class="img-responsive"
                                                                             class="media-object" alt="image"/>
-                                    <img ng-if="row.image.split('/')[row.image.split('/').length-1] == undefined" ng-src="../../images/eHealth/default_product_icon.png"  class="img-responsive"
+                                    <img ng-if="row.image == null" ng-src="../../images/eHealth/default_product_icon.png" width="100%" height="5%" class="img-responsive"
                                          class="media-object" alt="no image"/></td>
-                                <td width="30%" data-title="'Product Name'" class="text-center" sortable="'name'" filter="{ 'name': 'text' }">
+                                <td width="25%" data-title="'Product Name'" class="text-center" sortable="'name'" filter="{ 'name': 'text' }">
                                     {{row.name}}
                                 </td>
-                                <td data-title="'Price'">
-                                    {{row.price}}
+                                <td width="10%" data-title="'Price'">
+                                    &#8377; {{row.price}}
                                 </td>
-                                <td data-title="'Description'">
-                                    {{row.description}}
+                                <td data-title="'Discount'">
+                                    {{row.discount}} %
+                                </td>
+                                <td data-title="'Discounted Price'">
+                                    &#8377; {{row.discountPrice}}
+                                </td>
+                                <td width="20%" data-title="'Description'">
+                                    {{row.description| limitTo:120}}<span ng-if="row.description.length>120"> ....</span>
                                 </td>
 
                                 <td class="center">
@@ -51,7 +57,7 @@
                                            uib-tooltip="Edit"><i class="fa fa-pencil"></i></a>
                                         <a href="#" ng-click="vm.deleteProduct(row._id)"
                                            class="btn btn-transparent btn-xs tooltips" tooltip-placement="top"
-                                           uib-tooltip="Delete"><i class="fa fa-ban"></i></a>
+                                           uib-tooltip="Delete"><i class="fa fa-trash"></i></a>
                                     </div>
                                     <div class="visible-xs visible-sm hidden-md hidden-lg">
                                         <div class="btn-group" uib-dropdown>

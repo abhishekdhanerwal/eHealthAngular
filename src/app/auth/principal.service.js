@@ -5,10 +5,10 @@
     .module('auth')
     .factory('principal', principal);
 
-  principal.$inject = ['$q', '$http', '$timeout', '$localStorage', 'authFactory' ];
+  principal.$inject = ['$q', '$http', 'toaster', '$localStorage', 'authFactory' ];
 
   /* @ngInject */
-  function principal($q, $http, $timeout,  $localStorage, authFactory ) {
+  function principal($q, $http, toaster,  $localStorage, authFactory ) {
 
     var service = {
       signup:signup,
@@ -50,6 +50,7 @@
           else {
             clearLocalStorage();
             //_authenticated = false;
+              toaster.error("Invalid Login credentials");
             deferred.reject("Invalid Login credentials");
           }
         },
@@ -57,6 +58,7 @@
           console.log(errors);
           clearLocalStorage();
           //_authenticated = false;
+            toaster.error(errors.data.message);
           deferred.reject("Error connecting server " + errors);
         });
       return deferred.promise;
@@ -83,6 +85,7 @@
             else {
               clearLocalStorage();
               //_authenticated = false;
+                toaster.error("Invalid Login credentials");
               deferred.reject("Invalid Login credentials");
             }
           },
@@ -90,7 +93,7 @@
             console.log(errors);
             clearLocalStorage();
             //_authenticated = false;
-            deferred.reject("Error connecting server " + errors);
+            deferred.reject(errors);
           });
       return deferred.promise;
     }

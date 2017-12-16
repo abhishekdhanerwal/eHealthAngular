@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('app.product')
-        .factory('productFactory', productFactory);
+        .module('app.myProfile')
+        .factory('profileFactory', profileFactory);
 
-    productFactory.$inject = ['$http'];
+    profileFactory.$inject = ['$http'];
 
-    function productFactory($http) {
+    function profileFactory($http) {
         var service = {};
 
         service.addProduct = function (obj) {

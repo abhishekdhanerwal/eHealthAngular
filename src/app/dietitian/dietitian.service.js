@@ -2,16 +2,16 @@
     'use strict';
 
     angular
-        .module('app.product')
-        .factory('productFactory', productFactory);
+        .module('app.dietitian')
+        .factory('dietitianFactory', dietitianFactory);
 
-    productFactory.$inject = ['$http'];
+    dietitianFactory.$inject = ['$http'];
 
-    function productFactory($http) {
+    function dietitianFactory($http) {
         var service = {};
 
-        service.addProduct = function (obj) {
-            var promise = $http.post(__env.dataServerUrl + '/product/save', obj)
+        service.addDietitian = function (obj) {
+            var promise = $http.post(__env.dataServerUrl + '/dietitian/save', obj)
                 .then(
                     function (data) {
                         return data;
@@ -23,8 +23,8 @@
             return promise;
         };
 
-        service.findAll = function () {
-            var promise = $http.get(__env.dataServerUrl + '/product/list')
+        service.findAll = function (status) {
+            var promise = $http.get(__env.dataServerUrl + '/dietitian/list?status='+ status)
                 .then(
                     function (data) {
                         return data;
@@ -35,8 +35,8 @@
             return promise;
         };
 
-        service.getProduct = function (id) {
-            var promise = $http.get(__env.dataServerUrl + '/product/'+id)
+        service.getDietitian = function (id) {
+            var promise = $http.get(__env.dataServerUrl + '/dietitian/'+id)
                 .then(
                     function (data) {
                         return data;
@@ -47,8 +47,8 @@
             return promise;
         };
 
-        service.updateProduct = function (obj) {
-            var promise = $http.put(__env.dataServerUrl + '/product/'+obj._id , obj)
+        service.updateDietitian = function (obj) {
+            var promise = $http.put(__env.dataServerUrl + '/dietitian/'+obj._id , obj)
                 .then(
                     function (data) {
                         return data;
@@ -59,8 +59,8 @@
             return promise;
         };
 
-        service.deleteProduct = function (id) {
-            var promise = $http.delete(__env.dataServerUrl + '/product/'+id)
+        service.toggleDietitian = function (id) {
+            var promise = $http.put(__env.dataServerUrl + '/dietitian/status/'+id)
                 .then(
                     function (data) {
                         return data;

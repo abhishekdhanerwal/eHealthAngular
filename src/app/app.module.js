@@ -4,7 +4,8 @@
     angular.module('app.core', [
         'auth',
         'app.layout',
-        'app.channel',
-        'app.product'
+        'app.myProfile',
+        'app.product',
+        'app.dietitian'
     ]);
 })();

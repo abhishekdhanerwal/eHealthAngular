@@ -9,6 +9,13 @@ app.constant('APP_MEDIAQUERY', {
     'tablet': 768,
     'mobile': 480
 });
+
+app.constant('USER_ROLE', {
+    'ROLE_ADMIN': 'admin',
+    'ROLE_CONSUMER': 'consumer',
+    'ROLE_DIETITIAN': 'dietitian'
+});
+
 app.constant('JS_REQUIRES', {
     //*** Scripts
     scripts: {

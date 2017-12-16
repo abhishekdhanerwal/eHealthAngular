@@ -1,10 +1,10 @@
 <!-- start: MAIN NAVIGATION MENU -->
 <div class="navbar-title">
-    <span translate="sidebar.heading.NAVIGATION">Main Navigation</span>
+    <span>Main Navigation</span>
 </div>
 <ul class="main-navigation-menu">
     <li ui-sref-active="active">
-        <a ui-sref="app.dashboard">
+        <a ui-sref="app.profile">
             <div class="item-content">
                 <div class="item-media">
                     <letter-icon data="My Profile" char-count="2" size="sm"></letter-icon>
@@ -35,24 +35,44 @@
             </li>
         </ul>
     </li>
-  <li ui-sref-active="active">
-    <a ui-sref="app.channelList">
-      <div class="item-content">
-        <div class="item-media">
-          <letter-icon data="Channel" char-count="2" size="sm"></letter-icon>
-        </div>
-        <div class="item-inner">
-          <span class="title"> Channel </span>
-        </div>
-      </div>
-    </a>
-  </li>
+    <li ng-class="{'active open':$state.includes('app.dietitian')}" >
+        <a href="javascript:void(0)">
+            <div class="item-content">
+                <div class="item-media">
+                    <letter-icon data="Dietitian" char-count="1" size="sm"></letter-icon>
+                </div>
+                <div class="item-inner">
+                    <span class="title">Dietitian</span><i class="icon-arrow"></i>
+                </div>
+            </div>
+        </a>
+        <ul class="sub-menu">
+            <li ui-sref-active="active" >
+                <a ui-sref="app.dietitian.add"> <span class="title"> Add New </span> </a>
+            </li>
+            <li ui-sref-active="active" >
+                <a ui-sref="app.dietitian.list"> <span class="title" > List Dietitian </span> </a>
+            </li>
+        </ul>
+    </li>
+    <li ui-sref-active="active">
+        <a ui-sref="app.consumer">
+            <div class="item-content">
+                <div class="item-media">
+                    <letter-icon data="Consumers" char-count="2" size="sm"></letter-icon>
+                </div>
+                <div class="item-inner">
+                    <span class="title"> Consumers Request </span>
+                </div>
+            </div>
+        </a>
+    </li>
 
   <li ui-sref-active="active">
     <a ui-sref="logout">
       <div class="item-content">
         <div class="item-media">
-          <letter-icon data="Channel" char-count="2" size="sm"></letter-icon>
+          <letter-icon data="Logout" char-count="2" size="sm"></letter-icon>
         </div>
         <div class="item-inner">
           <span class="title"> Logout </span>

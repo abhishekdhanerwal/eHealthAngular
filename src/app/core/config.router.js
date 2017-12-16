@@ -52,6 +52,15 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         templateUrl: "app/layout/app.html",
         resolve: loadSequence(),
         abstract: true
+    }).state('app.profile', {
+        url: "/myProfile",
+        templateUrl: "app/myProfile/myProfile.html",
+        controller: 'MyProfileCtrl',
+        controllerAs: 'vm',
+        title: 'My Profile',
+        ncyBreadcrumb: {
+            label: 'My Profile'
+        }
     }).state('app.product', {
         url: "/products",
         template: '<div ui-view class="fade-in-up"></div>',
@@ -81,6 +90,40 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         url: "/edit/:id",
         templateUrl: "app/product/editProduct.html",
         controller: 'EditProductCtrl',
+        controllerAs: 'vm',
+        title: 'Edit',
+        ncyBreadcrumb: {
+            label: 'Edit'
+        }
+    }).state('app.dietitian', {
+        url: "/dietitian",
+        template: '<div ui-view class="fade-in-up"></div>',
+        title: 'Dietitian',
+        ncyBreadcrumb: {
+            label: 'Dietitian'
+        }
+    }).state('app.dietitian.add', {
+        url: "/add",
+        templateUrl: "app/dietitian/addDietitian.html",
+        controller: 'NewDietitianCtrl',
+        controllerAs: 'vm',
+        title: 'New',
+        ncyBreadcrumb: {
+            label: 'New'
+        }
+    }).state('app.dietitian.list', {
+        url: "/list",
+        templateUrl: "app/dietitian/listDietitian.html",
+        controller: 'ListDietitianCtrl',
+        controllerAs: 'vm',
+        title: 'List',
+        ncyBreadcrumb: {
+            label: 'List'
+        }
+    }).state('app.dietitian.edit', {
+        url: "/edit/:id",
+        templateUrl: "app/dietitian/editDietitian.html",
+        controller: 'EditDietitianCtrl',
         controllerAs: 'vm',
         title: 'Edit',
         ncyBreadcrumb: {

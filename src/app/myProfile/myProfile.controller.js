@@ -3,15 +3,14 @@
     'use strict';
 
     angular
-        .module('app.product')
-        .controller('NewProductCtrl', NewProductCtrl);
+        .module('app.myProfile')
+        .controller('MyProfileCtrl', MyProfileCtrl);
 
-    NewProductCtrl.$inject = ['$state' , 'Upload', 'toaster', 'productFactory', '$timeout' , 'validationHelperFactory'];
+    MyProfileCtrl.$inject = ['$state' , '$stateParams', 'Upload', 'toaster', 'productFactory', '$timeout' , 'validationHelperFactory'];
 
-    function NewProductCtrl($state , Upload  , toaster , productFactory , $timeout , validationHelperFactory) {
+    function MyProfileCtrl($state , $stateParams, Upload  , toaster , productFactory , $timeout , validationHelperFactory) {
         var vm = this;
         vm.product={};
-        vm.product.discount = 0;
 
         vm.breadcrumbRoute = breadcrumbRoute;
 
@@ -19,11 +18,26 @@
             $state.go('app.notice')
         }
 
+        activate();
+
+        function activate() {
+            // productFactory.getProduct($stateParams.id).then(function (response) {
+            //     console.log(response)
+            //     vm.product = response.data.data;
+            //     if(response.data.data.image)
+            //         vm.file = __env.dataServerUrl + '/product/'+ response.data.data.image;
+            // })
+        }
+
         vm.computeDiscountedPrice = function () {
             if(vm.product.discount == undefined)
                 vm.product.discountPrice = vm.product.price;
             else
-            vm.product.discountPrice = vm.product.price - (vm.product.discount*vm.product.price/100);
+                vm.product.discountPrice = vm.product.price - (vm.product.discount*vm.product.price/100);
+        };
+
+        vm.reset = function(){
+            activate();
         };
 
         vm.submit = function () {
@@ -34,8 +48,8 @@
 
             } else {
                 if(vm.product.discount == undefined)
-                    vm.product.discount = 0;
-                productFactory.addProduct(vm.product).then(function (response) {
+                    vm.product.discount=0;
+                productFactory.updateProduct(vm.product).then(function (response) {
                     if (response.status == 200) {
                         toaster.info(response.data.message);
                         $state.go('app.product.list');
@@ -64,17 +78,8 @@
                         console.error(response);
                     }
                 });
-             }
+            }
         };
-
-        vm.reset = function () {
-            vm.form.$setPristine();
-            vm.form.$setUntouched();
-            vm.product = {};
-            vm.file = null;
-            vm.progress = null;
-            vm.product.discount = 0;
-        }
 
         vm.submitImage = function(){ //function to call on form submit
             if (vm.form.file.$valid && vm.file) { //check if from is valid
@@ -84,7 +89,7 @@
 
         vm.upload = function (file) {
             Upload.upload({
-                url: __env.dataServerUrl+'/product/upload', //webAPI exposed to upload the file
+                url: __env.dataServerUrl+'/upload', //webAPI exposed to upload the file
                 data:{file:file} //pass file as data, should be user ng-model
             }).then(function (resp) {
                 console.log(resp)

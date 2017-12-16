@@ -29,9 +29,16 @@
             })
         }
 
+        vm.computeDiscountedPrice = function () {
+            if(vm.product.discount == undefined)
+                vm.product.discountPrice = vm.product.price;
+            else
+                vm.product.discountPrice = vm.product.price - (vm.product.discount*vm.product.price/100);
+        };
+
         vm.reset = function(){
             activate();
-        }
+        };
 
         vm.submit = function () {
             if (vm.form.name.$invalid) {
@@ -40,7 +47,9 @@
                 return;
 
             } else {
-                productFactory.addProduct(vm.product).then(function (response) {
+                if(vm.product.discount == undefined)
+                    vm.product.discount=0;
+                productFactory.updateProduct(vm.product).then(function (response) {
                     if (response.status == 200) {
                         toaster.info(response.data.message);
                         $state.go('app.product.list');
@@ -71,14 +80,6 @@
                 });
             }
         };
-
-        vm.reset = function () {
-            vm.form.$setPristine();
-            vm.form.$setUntouched();
-            vm.product = {};
-            vm.file = null;
-            vm.progress = null;
-        }
 
         vm.submitImage = function(){ //function to call on form submit
             if (vm.form.file.$valid && vm.file) { //check if from is valid
