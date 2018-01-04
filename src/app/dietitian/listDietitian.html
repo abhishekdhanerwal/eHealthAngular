@@ -27,14 +27,17 @@
 
                         <!-- start: TAB EDIT ACCOUNT -->
                         <uib-tab heading="Active Dietitians" active="editActive" ng-click="vm.getData(true)">
-                            <div class="row margin-bottom-10">
+
+                            <double-bounce-spinner ng-show="vm.progress" ></double-bounce-spinner>
+
+                            <div ng-show="!vm.progress" class="row margin-bottom-10">
                                 <div class="col-md-12">
                                     <a ng-click="vm.tableParams.filter({})"
                                        class="btn btn-wide btn-warning pull-right" href="#"><i class="ti-filter"></i> Clear
                                         Filters</a>
                                 </div>
                             </div>
-                            <div class="table-responsive">
+                            <div ng-show="!vm.progress" class="table-responsive">
                                 <table ng-table="vm.tableParams" show-filter="true" class="table table-striped">
                                     <tr ng-repeat="row in $data">
 
@@ -52,17 +55,14 @@
                                         <td width="10%" data-title="'Mobile'">
                                             {{row.mobile}}
                                         </td>
-                                        <td width="10%" data-title="'Coupon Code'">
-                                            {{row.couponCode}}
-                                        </td>
                                         <td width="10%" data-title="'Price'">
                                             &#8377; {{row.price}}
                                         </td>
-                                        <td data-title="'Discount'">
-                                            {{row.discount}} %
+                                        <td width="10%" data-title="'State'">
+                                            {{row.state}}
                                         </td>
-                                        <td data-title="'Discounted Price'">
-                                            &#8377; {{row.discountPrice}}
+                                        <td width="10%" data-title="'City'">
+                                            {{row.city}}
                                         </td>
 
                                         <td width="15%" class="center">
@@ -104,14 +104,17 @@
                         <!-- end: TAB EDIT ACCOUNT -->
                         <!-- start: TAB PROJECTS -->
                         <uib-tab heading="Inactive Dietitians" ng-click="vm.getData(false)">
-                            <div class="row margin-bottom-10">
+
+                            <double-bounce-spinner ng-show="vm.progress" ></double-bounce-spinner>
+
+                            <div ng-show="!vm.progress" class="row margin-bottom-10">
                                 <div class="col-md-12">
                                     <a ng-click="vm.tableParams.filter({})"
                                        class="btn btn-wide btn-warning pull-right" href="#"><i class="ti-filter"></i> Clear
                                         Filters</a>
                                 </div>
                             </div>
-                            <div class="table-responsive">
+                            <div ng-show="!vm.progress" class="table-responsive">
                                 <table ng-table="vm.tableParams" show-filter="true" class="table table-striped">
                                     <tr ng-repeat="row in $data">
 
@@ -129,17 +132,14 @@
                                         <td width="10%" data-title="'Mobile'">
                                             {{row.mobile}}
                                         </td>
-                                        <td width="10%" data-title="'Coupon Code'">
-                                            {{row.couponCode}}
-                                        </td>
                                         <td width="10%" data-title="'Price'">
                                             &#8377; {{row.price}}
                                         </td>
-                                        <td data-title="'Discount'">
-                                            {{row.discount}} %
+                                        <td width="10%" data-title="'State'">
+                                            {{row.state}}
                                         </td>
-                                        <td data-title="'Discounted Price'">
-                                            &#8377; {{row.discountPrice}}
+                                        <td width="10%" data-title="'City'">
+                                            {{row.city}}
                                         </td>
 
                                         <td width="10%" class="center">

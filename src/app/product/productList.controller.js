@@ -12,6 +12,8 @@
         var vm = this;
         vm.product={};
 
+        vm.progress = true;
+
         vm.breadcrumbRoute = breadcrumbRoute;
 
         function breadcrumbRoute() {
@@ -164,9 +166,9 @@
                             }
                         }
                     }
-                }
-
-            )};
+                })
+            vm.progress = false;
+        };
     }
 }());
 

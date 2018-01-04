@@ -6,9 +6,9 @@
         .module('app.myProfile')
         .controller('MyProfileCtrl', MyProfileCtrl);
 
-    MyProfileCtrl.$inject = ['$state' , '$stateParams', 'Upload', 'toaster', 'productFactory', '$timeout' , 'validationHelperFactory'];
+    MyProfileCtrl.$inject = ['$state' , '$localStorage', 'Upload', 'toaster', 'profileFactory', '$timeout' , 'validationHelperFactory'];
 
-    function MyProfileCtrl($state , $stateParams, Upload  , toaster , productFactory , $timeout , validationHelperFactory) {
+    function MyProfileCtrl($state , $localStorage, Upload  , toaster , profileFactory , $timeout , validationHelperFactory) {
         var vm = this;
         vm.product={};
 
@@ -21,38 +21,111 @@
         activate();
 
         function activate() {
-            // productFactory.getProduct($stateParams.id).then(function (response) {
-            //     console.log(response)
-            //     vm.product = response.data.data;
-            //     if(response.data.data.image)
-            //         vm.file = __env.dataServerUrl + '/product/'+ response.data.data.image;
-            // })
+            profileFactory.getUser($localStorage.__identity.user._id).then(function (response) {
+                console.log(response)
+                if (response.status == 200) {
+                    vm.user = response.data.user;
+                    if(response.data.user.profilePic)
+                        vm.file = __env.dataServerUrl + '/user/'+ response.data.user.profilePic;
+                    else
+                        vm.file = null;
+                }
+                else if (response.status == -1) {
+                    vm.errorMessage = 'Network Error';
+                    toaster.error('Network Error', 'error');
+                    console.error(response);
+                }
+                else if (response.status == 400) {
+                    vm.errorMessage = response.data.error.join();
+                    toaster.error(response.data.message, 'error');
+                    console.error(response);
+                }
+                else if (response.status == 401) {
+                    vm.errorMessage = response.data.message;
+                    toaster.error('Login Again !! You have been logged out');
+                    console.error(response);
+                    $timeout(function () {
+                        $state.go('logout')
+                    }, 2000);
+                }
+                else {
+                    vm.errorMessage = 'Some problem';
+                    toaster.error('Some problem', 'error');
+                    console.error(response);
+                }
+            })
         }
 
-        vm.computeDiscountedPrice = function () {
-            if(vm.product.discount == undefined)
-                vm.product.discountPrice = vm.product.price;
+        vm.reset = function(type){
+            if(type == 'password'){
+                vm.password = null;
+                vm.newPassword = null;
+                vm.password2 = null;
+                vm.passwordForm.$setPristine();
+                vm.passwordForm.$setUntouched();
+            }
             else
-                vm.product.discountPrice = vm.product.price - (vm.product.discount*vm.product.price/100);
+                activate();
         };
 
-        vm.reset = function(){
-            activate();
+        vm.submitPassword = function () {
+            if (vm.passwordForm.$invalid) {
+                validationHelperFactory.manageValidationFailed(vm.passwordForm);
+                vm.errorMessage = 'Validation error';
+                return;
+
+            } else {
+                var password = {};
+                password.password = vm.password;
+                password.newPassword = vm.newPassword;
+
+                profileFactory.updatePassword($localStorage.__identity.user._id ,password).then(function (response) {
+                    if (response.status == 200) {
+                        toaster.info(response.data.message);
+                        $timeout(function () {
+                            $state.go('logout');
+                        },2000);
+                    }
+                    else if (response.status == -1) {
+                        vm.errorMessage = 'Network Error';
+                        toaster.error('Network Error', 'error');
+                        console.error(response);
+                    }
+                    else if (response.status == 400) {
+                        vm.errorMessage = response.data.message;
+                        toaster.error(response.data.message, 'error');
+                        console.error(response);
+                    }
+                    else if (response.status == 401) {
+                        vm.errorMessage = response.data.message;
+                        toaster.error('Login Again !! You have been logged out');
+                        console.error(response);
+                        $timeout(function () {
+                            $state.go('logout')
+                        }, 2000);
+                    }
+                    else {
+                        vm.errorMessage = 'Some problem';
+                        toaster.error('Some problem', 'error');
+                        console.error(response);
+                    }
+                })
+            }
         };
 
         vm.submit = function () {
-            if (vm.form.name.$invalid) {
+            if (vm.form.$invalid) {
                 validationHelperFactory.manageValidationFailed(vm.form);
                 vm.errorMessage = 'Validation error';
                 return;
 
             } else {
-                if(vm.product.discount == undefined)
-                    vm.product.discount=0;
-                productFactory.updateProduct(vm.product).then(function (response) {
+
+                profileFactory.updateUser($localStorage.__identity.user._id ,vm.user).then(function (response) {
                     if (response.status == 200) {
+                        $localStorage.__identity.user = vm.user;
                         toaster.info(response.data.message);
-                        $state.go('app.product.list');
+                        $state.reload();
                     }
                     else if (response.status == -1) {
                         vm.errorMessage = 'Network Error';
@@ -89,14 +162,14 @@
 
         vm.upload = function (file) {
             Upload.upload({
-                url: __env.dataServerUrl+'/upload', //webAPI exposed to upload the file
+                url: __env.dataServerUrl+'/user/upload', //webAPI exposed to upload the file
                 data:{file:file} //pass file as data, should be user ng-model
             }).then(function (resp) {
                 console.log(resp)
                 // console.log(resp)//upload function returns a promise
                 if(resp.data.error_code === 0){ //validate success
                     // $window.alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
-                    vm.product.image = resp.data.file.filename;
+                    vm.user.profilePic = resp.data.file.filename;
                 } else {
                     toaster.error('an error occured');
                 }

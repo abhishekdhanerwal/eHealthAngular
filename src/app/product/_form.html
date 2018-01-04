@@ -1,5 +1,49 @@
-<ng-form name="vm.form" role="form" id="form" novalidate>
+<double-bounce-spinner ng-show="vm.progressLoader" ></double-bounce-spinner>
+
+<ng-form ng-show="!vm.progressLoader" name="vm.form" role="form" id="form" novalidate>
+    
     <fieldset>
+        <legend>
+            Category
+        </legend>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-default" ng-click="vm.open('category')"><a>Add new category</a></button>
+                <div class="form-group margin-top-15"
+                     ng-class="{'has-error':vm.form.category.$dirty && vm.form.category.$invalid, 'has-success':vm.form.category.$valid}">
+                    <label class="control-label">
+                        Select Category<span class="symbol required"></span>
+                    </label>
+                    <select class="form-control" name="category" ng-model="vm.category"
+                            ng-options="obj as obj.name for obj in vm.categoryList" ng-change="vm.populateSubCategory()" required>
+
+                    </select>
+                    <span class="error text-small block"
+                          ng-if="vm.form.category.$dirty && vm.form.category.$invalid">Category is required</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-default" ng-click="vm.open('subCategory')" ng-disabled="!vm.category">Add new sub-category</button>
+
+                <div class="form-group margin-top-15"
+                     ng-class="{'has-error':vm.form.subCategory.$dirty && vm.form.subCategory.$invalid, 'has-success':vm.form.subCategory.$valid}">
+                    <label class="control-label">
+                        Select SubCategory<span class="symbol required"></span>
+                    </label>
+                    <select class="form-control" name="subCategory" ng-model="vm.subCategory"
+                            ng-options="obj as obj.name for obj in vm.subCategoryList" ng-disabled="!vm.category" required>
+
+                    </select>
+                    <span class="error text-small block"
+                          ng-if="vm.form.subCategory.$dirty && vm.form.subCategory.$invalid">SubCategory is required</span>
+                </div>
+            </div>
+        </div>
+        
+    </fieldset>
+    
+    <fieldset ng-if="vm.subCategory">
         <legend>
             Product Info
         </legend>
@@ -11,10 +55,9 @@
                         Product Name <span class="symbol required"></span>
                     </label>
                     <input type="text" placeholder="Product name" class="form-control" name="name"
-                           ng-model="vm.product.name" ng-pattern="/^[a-zA-Z\s]*$/" required>
+                           ng-model="vm.product.name" required>
                     <span class="error text-small block"
                           ng-if="vm.form.name.$dirty && vm.form.name.$error.required">Product Name is required</span>
-                    <span class="error text-small block" ng-if="vm.form.name.$error.pattern">Invalid Characters</span>
                 </div>
 
                 <div class="form-group"
@@ -24,39 +67,88 @@
                     </label>
                     <input type="number" placeholder="Enter price of product" class="form-control"
                            name="price"
-                           ng-model="vm.product.price" ng-pattern="/^[1-9][0-9]*$/" ng-change="vm.computeDiscountedPrice()" required/>
+                           ng-model="vm.product.price" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-change="vm.computeDiscountedPrice()" required/>
                     <span class="error text-small block"
                           ng-if="vm.form.price.$dirty && vm.form.price.$error.required">Price is required</span>
                     <span class="error text-small block" ng-if="vm.form.price.$error.pattern">Invalid Characters</span>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.shortDescription.$dirty && vm.form.shortDescription.$invalid, 'has-success':vm.form.shortDescription.$valid}">
                     <label class="control-label">
-                        Percentage Discount %
+                        Short Description <span class="symbol required"></span>
                     </label>
-                    <input type="number" placeholder="Enter discount on product" class="form-control"
-                           name="discount"
-                           ng-model="vm.product.discount" ng-change="vm.computeDiscountedPrice()" ng-pattern="/^[1-9][0-9]*$/" required/>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">
-                        Dicounted Price (&#8377;)
-                    </label>
-                    <input type="number" placeholder="Discounted price of product" class="form-control"
-                           name="discountPrice"
-                           ng-model="vm.product.discountPrice" ng-pattern="/^[1-9][0-9]*$/" ng-readonly="true" required/>
+                    <input type="text" placeholder="Short description" class="form-control" name="shortDescription"
+                           ng-model="vm.product.shortDescription" required>
+                    <span class="error text-small block"
+                          ng-if="vm.form.shortDescription.$dirty && vm.form.shortDescription.$error.required">Short Description is required</span>
                 </div>
 
                 <div class="form-group"
                      ng-class="{'has-error':vm.form.description.$dirty && vm.form.description.$invalid, 'has-success':vm.form.description.$valid}">
-                    <label class="control-label"> Description </label>
-                    <textarea class="form-control custom-control" rows="3" name="description" style="resize:none" ng-model="vm.product.description"
-                    ></textarea>
+                    <label class="control-label"> Long Description </label>
+                    <textarea class="form-control custom-control" rows="3" name="description" style="resize:none" ng-model="vm.product.longDescription"></textarea>
                 </div>
 
             </div>
             <div class="col-md-6">
+
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.stock.$dirty && vm.form.stock.$invalid, 'has-success':vm.form.stock.$valid}">
+                    <label class="block">
+                        In Stock <span class="symbol required"></span>
+                    </label>
+                    <div class="clip-radio radio-primary">
+                        <input type="radio" id="us-female" name="stock"  value="yes"
+                               ng-model="vm.product.inStock" required>
+                        <label for="us-female">
+                            Yes
+                        </label>
+                        <input type="radio" id="us-male" name="stock"  value="no"
+                               ng-model="vm.product.inStock" required>
+                        <label for="us-male">
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div ng-if="vm.product.inStock == 'yes'" class="form-group"
+                     ng-class="{'has-error':vm.form.stockLeft.$dirty && vm.form.stockLeft.$invalid, 'has-success':vm.form.stockLeft.$valid}">
+                    <label class="control-label">
+                        Stock Left <span class="symbol required"></span>
+                    </label>
+                    <input type="number" placeholder="Enter stock left" class="form-control"
+                           name="stockLeft"
+                           ng-model="vm.product.stockLeft" ng-pattern="/^[1-9][0-9]*$/" required/>
+                    <span class="error text-small block"
+                          ng-if="vm.form.stockLeft.$dirty && vm.form.stockLeft.$error.required">Stock Left is required</span>
+                    <span class="error text-small block" ng-if="vm.form.stockLeft.$error.pattern">Invalid Characters</span>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Quantity in gram
+                            </label>
+                            <input type="number" placeholder="Enter quantity" class="form-control"
+                                   name="quantity"
+                                   ng-model="vm.product.quantity" ng-pattern="/^[1-9][0-9]*$/" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Piece per Packet
+                            </label>
+                            <input type="number" placeholder="Enter piece per packet" class="form-control"
+                                   name="pieceInPacket"
+                                   ng-model="vm.product.pieceInPacket" ng-pattern="/^[1-9][0-9]*$/" />
+                        </div>
+                    </div>
+
+                </div>
 
                 <div class="form-group margin-left-25">
 
@@ -87,7 +179,7 @@
     </fieldset>
 
 
-    <div class="row">
+    <div ng-if="vm.subCategory" class="row">
         <div class="col-md-12">
             <div class="pull-right">
                 <button type="submit" class="btn btn-wide btn-success"
@@ -105,3 +197,63 @@
         </div>
     </div>
 </ng-form>
+
+<script type="text/ng-template" id="addProductCategory.html">
+    <div class="modal-header">
+        <div class="row text-center">
+            <h3>Add Product Category</h3>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row margin-right-15 margin-left-15">
+            <ng-form name="categoryForm" role="form" id="categoryForm" novalidate>
+
+                            <div class="form-group"
+                                 ng-class="{'has-error':categoryForm.name.$dirty && categoryForm.name.$invalid, 'has-success':categoryForm.name.$valid}">
+                                <label class="control-label">
+                                    Category Name <span class="symbol required"></span>
+                                </label>
+                                <input type="text" placeholder="Category name" class="form-control" name="name"
+                                       ng-model="category.name" required>
+                                <span class="error text-small block"
+                                      ng-if="categoryForm.name.$dirty && categoryForm.name.$error.required">Category Name is required</span>
+                            </div>
+
+            </ng-form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-primary btn-o" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="addProductSubCategory.html">
+    <div class="modal-header">
+        <div class="row text-center">
+            <h3>Add Product Sub-Category</h3>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row margin-right-15 margin-left-15">
+            <ng-form name="subCategoryForm" role="form" id="subCategoryForm" novalidate>
+
+                <div class="form-group"
+                     ng-class="{'has-error':subCategoryForm.name.$dirty && subCategoryForm.name.$invalid, 'has-success':subCategoryForm.name.$valid}">
+                    <label class="control-label">
+                        Sub-Category Name <span class="symbol required"></span>
+                    </label>
+                    <input type="text" placeholder="Category name" class="form-control" name="name"
+                           ng-model="subCategory.name" required>
+                    <span class="error text-small block"
+                          ng-if="subCategoryForm.name.$dirty && subCategoryForm.name.$error.required">Sub-Category Name is required</span>
+                </div>
+
+            </ng-form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-primary btn-o" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

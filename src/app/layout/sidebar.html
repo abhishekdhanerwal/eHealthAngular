@@ -11,41 +11,42 @@
 </div>
 <!-- end: SEARCH FORM -->
 <!-- start: USER OPTIONS -->
-<div class="nav-user-wrapper">
+<div class="nav-user-wrapper" ng-controller="MyProfileCtrl as vm">
     <div class="media">
         <div class="media-left">
-            <a class="profile-card-photo" href="#"><img alt="" src="images/avatar-1.jpg"></a>
+            <a ng-if="!vm.user.profilePic" class="profile-card-photo" href="#"><img alt="" ng-src="../../images/eHealth/default-images.png"></a>
+            <a ng-if="vm.user.profilePic" class="profile-card-photo" href="#"><img alt="" ng-src="{{vm.file}}"></a>
         </div>
         <div class="media-body">
-            <span class="media-heading text-white">Peter Clark</span>
+            <span class="media-heading text-white">{{vm.user.name | uppercase}}</span>
             <div class="text-small text-white-transparent">
-                UI Designer
+                {{vm.user.role}}
             </div>
         </div>
 
-        <div class="media-right media-middle">
-            <div uib-dropdown is-open="status.isopen">
-                <a href class="dropdown-toggle btn btn-transparent text-white" uib-dropdown-toggle><i class="fa fa-caret-down"></i> </a>
-                <ul class="dropdown-menu pull-right animated fadeInRight">
-                    <li>
-                        <a ui-sref="app.pages.user" translate="topbar.user.PROFILE"> My Profile </a>
-                    </li>
+        <!--<div class="media-right media-middle">-->
+            <!--<div uib-dropdown is-open="status.isopen">-->
+                <!--<a href class="dropdown-toggle btn btn-transparent text-white" uib-dropdown-toggle><i class="fa fa-caret-down"></i> </a>-->
+                <!--<ul class="dropdown-menu pull-right animated fadeInRight">-->
                     <!--<li>-->
-                        <!--<a ui-sref="app.pages.calendar" translate="topbar.user.CALENDAR"> My Calendar </a>-->
+                        <!--<a ui-sref="app.pages.user" translate="topbar.user.PROFILE"> My Profile </a>-->
                     <!--</li>-->
+                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a ui-sref="app.pages.calendar" translate="topbar.user.CALENDAR"> My Calendar </a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a ui-sref="app.pages.messages" translate="topbar.user.MESSAGES"> My Messages (3) </a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a ui-sref="login.lockscreen" translate="topbar.user.LOCKSCREEN"> Lock Screen </a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--<li class="divider"></li>-->
                     <!--<li>-->
-                        <!--<a ui-sref="app.pages.messages" translate="topbar.user.MESSAGES"> My Messages (3) </a>-->
+                        <!--<a ui-sref="login.signin" translate="topbar.user.LOGOUT"> Log Out </a>-->
                     <!--</li>-->
-                    <!--<li>-->
-                        <!--<a ui-sref="login.lockscreen" translate="topbar.user.LOCKSCREEN"> Lock Screen </a>-->
-                    <!--</li>-->
-                    <li class="divider"></li>
-                    <li>
-                        <a ui-sref="login.signin" translate="topbar.user.LOGOUT"> Log Out </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
 <!-- end: USER OPTIONS -->

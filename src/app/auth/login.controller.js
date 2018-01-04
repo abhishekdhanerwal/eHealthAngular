@@ -6,25 +6,22 @@
     .module('auth')
     .controller('LoginCtrl', LoginCtrl);
 
-  LoginCtrl.$inject = ['principal' , '$state', 'toaster' , '$auth' , '$scope'];
+  LoginCtrl.$inject = ['principal' , '$state', 'toaster' , '$auth' , '$scope' , 'ngNotify' , 'USER_ROLE'];
 
-  function LoginCtrl(principal , $state, toaster , $auth , $scope) {
+  function LoginCtrl(principal , $state, toaster , $auth , $scope , ngNotify , USER_ROLE) {
     var vm = this;
-
-    console.log('login');
-      toaster.error('asd')
 
     vm.submit = function () {
       console.log(vm.user);
       principal.signin(vm.user).then(function (response) {
-        console.log(response);
-        $state.go('app.profile');
+        if(response.user.role == USER_ROLE.ROLE_ADMIN)
+             $state.go('app.profile');
+          else
+          ngNotify.set('You are not admin !', 'error');
       },function (error) {
           console.log(error)
           console.log(error.data.message)
-          $scope.$watch = function () {
-              toaster.error(error.data.message);
-          }
+          ngNotify.set(error.data.message, 'error');
 
       });
 

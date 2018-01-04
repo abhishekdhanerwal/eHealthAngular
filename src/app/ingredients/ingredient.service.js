@@ -2,50 +2,51 @@
     'use strict';
 
     angular
-        .module('app.myProfile')
-        .factory('profileFactory', profileFactory);
+        .module('app.ingredient')
+        .factory('ingredientFactory', ingredientFactory);
 
-    profileFactory.$inject = ['$http'];
+    ingredientFactory.$inject = ['$http'];
 
-    function profileFactory($http) {
+    function ingredientFactory($http) {
         var service = {};
 
-        service.getUser = function (id) {
-            var promise = $http.get(__env.dataServerUrl + '/user/details/'+id)
+        service.addNew = function (obj) {
+            var promise = $http.post(__env.dataServerUrl + '/ingredient/save', obj)
                 .then(
                     function (data) {
                         return data;
                     },
                     function (errors) {
+                        console.log(errors);
                         return errors;
                     });
             return promise;
         };
 
-        service.updateUser = function (id, user) {
-            var promise = $http.put(__env.dataServerUrl + '/user/updateDetails/'+id , user)
+        service.findList = function () {
+            var promise = $http.get(__env.dataServerUrl + '/ingredient/list')
                 .then(
                     function (data) {
                         return data;
                     },
                     function (errors) {
+                        console.log(errors);
                         return errors;
                     });
             return promise;
-        };
+        }
 
-        service.updatePassword = function (id, pass) {
-            var promise = $http.put(__env.dataServerUrl + '/user/updatePassword/'+id , pass)
+        service.getIngredient = function (id) {
+            var promise = $http.get(__env.dataServerUrl + '/ingredient/'+ id)
                 .then(
                     function (data) {
                         return data;
                     },
                     function (errors) {
-                        return errors;
+                        return errors;y
                     });
             return promise;
         };
-
 
         return service;
     };

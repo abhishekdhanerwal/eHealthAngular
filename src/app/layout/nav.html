@@ -4,13 +4,13 @@
 </div>
 <ul class="main-navigation-menu">
     <li ui-sref-active="active">
-        <a ui-sref="app.profile">
+        <a ui-sref="app.dashboard">
             <div class="item-content">
                 <div class="item-media">
-                    <letter-icon data="My Profile" char-count="2" size="sm"></letter-icon>
+                    <letter-icon data="Dashboard" char-count="2" size="sm"></letter-icon>
                 </div>
                 <div class="item-inner">
-                    <span class="title"> My Profile </span>
+                    <span class="title"> Dashboard </span>
                 </div>
             </div>
         </a>
@@ -55,6 +55,26 @@
             </li>
         </ul>
     </li>
+    <li ng-class="{'active open':$state.includes('app.ingredient')}" >
+        <a href="javascript:void(0)">
+            <div class="item-content">
+                <div class="item-media">
+                    <letter-icon data="Ingredient" char-count="1" size="sm"></letter-icon>
+                </div>
+                <div class="item-inner">
+                    <span class="title">Ingredient</span><i class="icon-arrow"></i>
+                </div>
+            </div>
+        </a>
+        <ul class="sub-menu">
+            <li ui-sref-active="active" >
+                <a ui-sref="app.ingredient.add"> <span class="title"> Add New </span> </a>
+            </li>
+            <li ui-sref-active="active" >
+                <a ui-sref="app.ingredient.list"> <span class="title" > List Ingredient </span> </a>
+            </li>
+        </ul>
+    </li>
     <li ui-sref-active="active">
         <a ui-sref="app.consumer">
             <div class="item-content">
@@ -63,6 +83,40 @@
                 </div>
                 <div class="item-inner">
                     <span class="title"> Consumers Request </span>
+                </div>
+            </div>
+        </a>
+    </li>
+
+    <li ng-class="{'active open':$state.includes('app.coupon')}" >
+        <a href="javascript:void(0)">
+            <div class="item-content">
+                <div class="item-media">
+                    <letter-icon data="Coupon" char-count="1" size="sm"></letter-icon>
+                </div>
+                <div class="item-inner">
+                    <span class="title">Coupons</span><i class="icon-arrow"></i>
+                </div>
+            </div>
+        </a>
+        <ul class="sub-menu">
+            <li ui-sref-active="active" >
+                <a ui-sref="app.coupon.add"> <span class="title"> Add New </span> </a>
+            </li>
+            <li ui-sref-active="active" >
+                <a ui-sref="app.coupon.list"> <span class="title" > List Coupons </span> </a>
+            </li>
+        </ul>
+    </li>
+
+    <li ui-sref-active="active">
+        <a ui-sref="app.profile">
+            <div class="item-content">
+                <div class="item-media">
+                    <letter-icon data="My Profile" char-count="2" size="sm"></letter-icon>
+                </div>
+                <div class="item-inner">
+                    <span class="title"> My Profile </span>
                 </div>
             </div>
         </a>

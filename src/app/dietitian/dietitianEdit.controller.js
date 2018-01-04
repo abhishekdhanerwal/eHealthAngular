@@ -11,12 +11,17 @@
     function EditDietitianCtrl($state , $stateParams, Upload  , toaster , dietitianFactory , $timeout , validationHelperFactory) {
         var vm = this;
         vm.dietitian={};
+        vm.progress = true;
 
         vm.breadcrumbRoute = breadcrumbRoute;
 
         function breadcrumbRoute() {
             $state.go('app.notice')
         }
+
+        vm.hideAlertBox = function () {
+            vm.errorMessage = false;
+        };
 
         activate();
 
@@ -26,22 +31,19 @@
                 vm.dietitian = response.data.data;
                 if(response.data.data.profilePic)
                     vm.file = __env.dataServerUrl + '/dietitian/'+ response.data.data.profilePic;
+
+                vm.progress = false;
             })
         }
 
-        vm.computeDiscountedPrice = function () {
-            if(vm.dietitian.discount == undefined)
-                vm.dietitian.discountPrice = vm.dietitian.price;
-            else
-                vm.dietitian.discountPrice = vm.dietitian.price - (vm.dietitian.discount*vm.dietitian.price/100);
-        };
-
         vm.reset = function(){
+            vm.progress = true;
             activate();
+            vm.hideAlertBox();
         };
 
         vm.submit = function () {
-            if (vm.form.name.$invalid) {
+            if (vm.form.$invalid) {
                 validationHelperFactory.manageValidationFailed(vm.form);
                 vm.errorMessage = 'Validation error';
                 return;
@@ -106,7 +108,7 @@
             }, function (evt) {
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-                vm.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
+                vm.progressImage = 'progress: ' + progressPercentage + '% '; // capture upload progress
             });
         };
     }

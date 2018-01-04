@@ -6,11 +6,13 @@
         .module('app.product')
         .controller('EditProductCtrl', EditProductCtrl);
 
-    EditProductCtrl.$inject = ['$state' , '$stateParams', 'Upload', 'toaster', 'productFactory', '$timeout' , 'validationHelperFactory'];
+    EditProductCtrl.$inject = ['$state' , '$stateParams', 'Upload', 'toaster', 'productFactory', '$timeout' , 'validationHelperFactory' , '$uibModal'];
 
-    function EditProductCtrl($state , $stateParams, Upload  , toaster , productFactory , $timeout , validationHelperFactory) {
+    function EditProductCtrl($state , $stateParams, Upload  , toaster , productFactory , $timeout , validationHelperFactory , $uibModal) {
         var vm = this;
         vm.product={};
+
+        vm.progressLoader = true;
 
         vm.breadcrumbRoute = breadcrumbRoute;
 
@@ -18,37 +20,240 @@
             $state.go('app.notice')
         }
 
-        activate();
+        vm.hideAlertBox = function () {
+            vm.errorMessage = false;
+        };
 
-        function activate() {
+        function generateProductData() {
             productFactory.getProduct($stateParams.id).then(function (response) {
-                console.log(response)
-                vm.product = response.data.data;
-                if(response.data.data.image)
-                    vm.file = __env.dataServerUrl + '/product/'+ response.data.data.image;
+                if (response.status == 200) {
+                    console.log(response)
+                    vm.product = response.data.data;
+                    if(vm.product.inStock)
+                        vm.product.inStock = 'yes';
+                    else
+                        vm.product.inStock = 'no';
+                    if(vm.product.quantity)
+                        vm.product.quantity = Number(vm.product.quantity);
+                    if(vm.product.pieceInPacket)
+                        vm.product.pieceInPacket = Number(vm.product.pieceInPacket);
+                    if(response.data.data.image)
+                        vm.file = __env.dataServerUrl + '/product/'+ response.data.data.image;
+
+                    generateCategoryList();
+
+                    vm.progressLoader = false;
+                }
+                else if (response.status == -1) {
+                    vm.errorMessage = 'Network Error';
+                    toaster.error('Network Error', 'error');
+                    console.error(response);
+                }
+                else if (response.status == 400) {
+                    vm.errorMessage = response.data.error.join();
+                    toaster.error(response.data.message, 'error');
+                    console.error(response);
+                }
+                else if (response.status == 401) {
+                    vm.errorMessage = response.data.message;
+                    toaster.error('Login Again !! You have been logged out');
+                    console.error(response);
+                    $timeout(function () {
+                        $state.go('logout')
+                    }, 2000);
+                }
+                else {
+                    vm.errorMessage = 'Some problem';
+                    toaster.error('Some problem', 'error');
+                    console.error(response);
+                }
             })
         }
 
-        vm.computeDiscountedPrice = function () {
-            if(vm.product.discount == undefined)
-                vm.product.discountPrice = vm.product.price;
-            else
-                vm.product.discountPrice = vm.product.price - (vm.product.discount*vm.product.price/100);
+        function generateSubCategoryList() {
+            productFactory.getSubCategoryList(vm.product.subCategory.category._id).then(function (response) {
+                if (response.status == 200) {
+                    vm.subCategoryList = response.data.data;
+                    _.each(vm.subCategoryList, function (value, key) {
+                        if(value._id == vm.product.subCategory._id){
+                            vm.subCategory = vm.subCategoryList[key];
+                        }
+                    });
+
+                }
+                else if (response.status == -1) {
+                    vm.errorMessage = 'Network Error';
+                    toaster.error('Network Error', 'error');
+                    console.error(response);
+                }
+                else if (response.status == 400) {
+                    vm.errorMessage = response.message.error;
+                    toaster.error(response.data.message, 'error');
+                    console.error(response);
+                }
+                else if (response.status == 401) {
+                    vm.errorMessage = response.data.message;
+                    toaster.error('Login Again !! You have been logged out');
+                    console.error(response);
+                    $timeout(function () {
+                        $state.go('logout')
+                    }, 2000);
+                }
+                else {
+                    vm.errorMessage = 'Some problem';
+                    toaster.error('Some problem', 'error');
+                    console.error(response);
+                }
+            })
+        }
+
+        function generateCategoryList() {
+            productFactory.getCategoryList().then(function (response) {
+                if (response.status == 200) {
+                    vm.categoryList = response.data.data;
+
+                    _.each(vm.categoryList, function (value, key) {
+                        if(value._id == vm.product.subCategory.category._id){
+                             vm.category = vm.categoryList[key];
+                        }
+                    });
+                    generateSubCategoryList();
+                }
+                else if (response.status == -1) {
+                    vm.errorMessage = 'Network Error';
+                    toaster.error('Network Error', 'error');
+                    console.error(response);
+                }
+                else if (response.status == 400) {
+                    vm.errorMessage = response.message.error;
+                    toaster.error(response.data.message, 'error');
+                    console.error(response);
+                }
+                else if (response.status == 401) {
+                    vm.errorMessage = response.data.message;
+                    toaster.error('Login Again !! You have been logged out');
+                    console.error(response);
+                    $timeout(function () {
+                        $state.go('logout')
+                    }, 2000);
+                }
+                else {
+                    vm.errorMessage = 'Some problem';
+                    toaster.error('Some problem', 'error');
+                    console.error(response);
+                }
+            });
+        }
+
+        activate();
+
+        function activate() {
+            generateProductData();
+
+        }
+
+        vm.open = function (item) {
+            vm.errorMessage = false;
+
+            if(item == 'category'){
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'addProductCategory.html',
+                    controller: 'ProductCategoryCtrl'
+                });
+            }
+            else {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'addProductSubCategory.html',
+                    controller: 'SubProductCategoryCtrl',
+                    resolve: {
+                        categoryList: function () {
+                            return vm.category;
+                        }
+                    }
+                });
+            }
+
+            modalInstance.result.then(function (selectedItem) {
+                console.log(selectedItem)
+                if(item == 'category') {
+                    productFactory.addCategory(selectedItem).then(function (response) {
+                        if (response.status == 200) {
+                            activate();
+                        }
+                        else if (response.status == -1) {
+                            vm.errorMessage = 'Network Error';
+                            toaster.error('Network Error', 'error');
+                            console.error(response);
+                        }
+                        else if (response.status == 400) {
+                            vm.errorMessage = response.data.message;
+                            toaster.error(response.data.message, 'error');
+                            console.error(response);
+                        }
+                        else if (response.status == 401) {
+                            vm.errorMessage = response.data.message;
+                            toaster.error('Login Again !! You have been logged out');
+                            console.error(response);
+                            $timeout(function () {
+                                $state.go('logout')
+                            }, 2000);
+                        }
+                        else {
+                            vm.errorMessage = 'Some problem';
+                            toaster.error('Some problem', 'error');
+                            console.error(response);
+                        }
+                    })
+                }
+                else {
+                    productFactory.addSubCategory(vm.category , selectedItem).then(function (response) {
+                        if (response.status == 200) {
+                            generateSubCategoryList();
+                        }
+                        else if (response.status == -1) {
+                            vm.errorMessage = 'Network Error';
+                            toaster.error('Network Error', 'error');
+                            console.error(response);
+                        }
+                        else if (response.status == 400) {
+                            vm.errorMessage = response.data.message;
+                            toaster.error(response.data.message, 'error');
+                            console.error(response);
+                        }
+                        else if (response.status == 401) {
+                            vm.errorMessage = response.data.message;
+                            toaster.error('Login Again !! You have been logged out');
+                            console.error(response);
+                            $timeout(function () {
+                                $state.go('logout')
+                            }, 2000);
+                        }
+                        else {
+                            vm.errorMessage = 'Some problem';
+                            toaster.error('Some problem', 'error');
+                            console.error(response);
+                        }
+                    })
+                }
+            }, function () {
+                console.info('Modal dismissed at: ' + new Date());
+            });
         };
 
         vm.reset = function(){
+            vm.progressLoader = true;
             activate();
+            vm.hideAlertBox();
         };
 
         vm.submit = function () {
-            if (vm.form.name.$invalid) {
+            if (vm.form.$invalid) {
                 validationHelperFactory.manageValidationFailed(vm.form);
                 vm.errorMessage = 'Validation error';
                 return;
 
             } else {
-                if(vm.product.discount == undefined)
-                    vm.product.discount=0;
+                vm.product.subCategory = vm.subCategory._id;
                 productFactory.updateProduct(vm.product).then(function (response) {
                     if (response.status == 200) {
                         toaster.info(response.data.message);

@@ -33,5 +33,6 @@ angular.module("packet", [
 	'FBAngular',
   'ngYoutubeEmbed',
   'youtube-embed',
-  'satellizer'
+  'satellizer',
+	'angular-spinkit'
 ]);

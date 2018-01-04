@@ -1,0 +1,241 @@
+<!-- start: BREADCRUMB -->
+<div class="breadcrumb-wrapper" ng-click="vm.breadcrumbRoute()">
+    <h4 class="mainTitle no-margin" >New Coupon</h4>
+
+    <div ncy-breadcrumb class="pull-right"></div>
+</div>
+<!-- end: BREADCRUMB -->
+<div class="container-fluid container-fullw">
+
+    <div class="row" ng-show="vm.errorMessage">
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <button class="close" ng-click="vm.hideAlertBox()">
+                    &times;
+                </button>
+                <strong>Error!</strong> {{vm.errorMessage}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-body">
+
+                    <fieldset>
+                        <legend>Select </legend>
+
+                        <div class="form-group">
+                            <div class="clip-radio radio-primary">
+                                <input type="radio" id="us-category" ng-disabled="vm.couponView.productCategory || vm.couponView.productSubCategory || vm.couponView.dietitian" name="gender" value="productCategory"
+                                       ng-model="vm.type" ng-change="vm.hideForm()" required>
+                                <label for="us-category">
+                                    Product Category
+                                </label>
+                                <input type="radio" id="us-subcategory" ng-disabled="vm.couponView.productCategory || vm.couponView.productSubCategory || vm.couponView.dietitian" name="gender" value="productSubCategory"
+                                       ng-model="vm.type" ng-change="vm.hideForm()" required>
+                                <label for="us-subcategory">
+                                    Product Sub Category
+                                </label>
+                                <input type="radio" id="us-dietitian" ng-disabled="vm.couponView.productCategory || vm.couponView.productSubCategory || vm.couponView.dietitian" name="gender" value="dietitian"
+                                       ng-model="vm.type" ng-change="vm.generateDropDownData()" required>
+                                <label for="us-dietitian">
+                                    Dietitian
+                                </label>
+                            </div>
+                        </div>
+
+                        <div ng-if="vm.type == 'productCategory' || vm.type == 'productSubCategory'" class="row">
+                            <div class="col-md-6">
+                                <select class="cs-select cs-skin-slide" ng-options="item.name for item in vm.categoryDropDownList" ng-change="vm.populateSubCategory()" ng-model="vm.couponView.productCategory">
+                                    <option value="" disabled="">Category</option>
+                                </select>
+                            </div>
+                            <div ng-if="vm.type == 'productSubCategory'" class="col-md-6">
+                                <select class="cs-select cs-skin-slide" ng-options="item.name for item in vm.subCategoryDropDownList" ng-change="vm.hideForm()" ng-model="vm.couponView.productSubCategory">
+                                    <option value="" disabled="">Sub-Category</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div ng-if="vm.type == 'dietitian'" class="row">
+                            <select class="cs-select cs-skin-slide" ng-options="item.name for item in vm.dropDownList" ng-change="vm.dietitianPic()" ng-model="vm.couponView.dietitian">
+                                <option value="" disabled="">Select</option>
+                            </select>
+                        </div>
+
+                        <div ng-if="vm.type == 'dietitian' && vm.couponView.dietitian" class="row margin-top-30">
+                            <div class="panel panel-green no-border no-radius">
+                                <div class="panel-body no-padding">
+                                    <div class="space10 padding-15">
+                                        <h5 class="text-bold text-extra-small text-white text-uppercase no-margin">{{vm.type | uppercase}}  <i class="fa fa-arrow-circle-o-right"></i></h5>
+                                    </div>
+
+                                    <div class="row margin-left-20">
+                                        <div class="col-lg-3">
+                                            <img ng-if="vm.couponView.dietitian.profilePic != null" ng-src="{{vm.couponView.dietitian.profilePic}}" width="80%" height="5%" class="img-responsive img-rounded"
+                                                 class="media-object" alt="image"/>
+                                            <img ng-if="vm.type == 'dietitian' && vm.couponView.dietitian.profilePic == null" ng-src="../../images/eHealth/default-images.png" width="80%" height="5%" class="img-responsive img-rounded"
+                                                 class="media-object" alt="no image"/>
+                                            <img ng-if="vm.type == 'product' && vm.couponView.dietitian.profilePic == null" ng-src="../../images/eHealth/default_product_icon.png" width="80%" height="5%" class="img-responsive img-rounded"
+                                                 class="media-object" alt="no image"/>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h2 class="text-white margin-top-15 margin-bottom-10">{{vm.couponView.dietitian.name}}</h2>
+                                            <span ng-if="vm.type == 'dietitian'" class="label background-light text-dark margin-top-10 margin-right-5">{{vm.couponView.dietitian.email}}</span>
+                                            <h2 ng-if="vm.type == 'dietitian'" class="text-white margin-top-15 margin-bottom-10">{{vm.couponView.dietitian.state}}</h2><h4 ng-if="vm.type == 'dietitian'" class="text-white margin-top-15 margin-bottom-10">{{vm.couponView.dietitian.city}}</h4>
+                                            <h2 ng-if="vm.type == 'product'" class="text-white margin-top-15 margin-bottom-10">Description - {{vm.couponView.dietitian.shortDescription}}</h2>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <span ng-if="vm.type == 'dietitian'" class=" pull-right padding-right-30"><i class="fa fa-mobile"></i> -  {{vm.couponView.dietitian.mobile}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <ng-form ng-if="vm.viewForm" name="vm.form" role="form" id="form" novalidate>
+                        <fieldset>
+                            <legend>
+                                Coupon Info
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div ng-if="vm.type == 'dietitian'" class="form-group"
+                                         ng-class="{'has-error':vm.form.price.$dirty && vm.form.price.$invalid, 'has-success':vm.form.price.$valid}">
+                                        <label class="control-label">
+                                            Dieititan/Product Price (&#8377;) <span class="symbol required"></span>
+                                        </label>
+                                        <input type="number" placeholder="Enter price of product" class="form-control"
+                                               name="price"
+                                               ng-model="vm.couponView.dietitian.price" ng-pattern="/^[1-9][0-9]*$/" ng-change="vm.computeDiscountedPrice()" ng-readonly="true" required/>
+                                        <span class="error text-small block"
+                                              ng-if="vm.form.price.$dirty && vm.form.price.$error.required">Price is required</span>
+                                        <span class="error text-small block" ng-if="vm.form.price.$error.pattern">Invalid Characters</span>
+                                    </div>
+
+                                    <div ng-if="vm.type == 'dietitian'" class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    Percentage Discount %
+                                                </label>
+                                                <input type="number" placeholder="Enter percentage discount on product" class="form-control"
+                                                       name="discount"
+                                                       ng-model="vm.discount.discountPercentage" ng-change="vm.computeDiscountedPrice()" ng-pattern="/^[0-9]+(\.[0-9]{1,7})?$/"/>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    Flat Discount
+                                                </label>
+                                                <input type="number" placeholder="Enter flat discount on product" class="form-control"
+                                                       name="flatDiscount"
+                                                       ng-model="vm.discount.discountFixed" ng-change="vm.computeDiscountedPrice()" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"/>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if="vm.type == 'productSubCategory' || vm.type == 'productCategory'" class="form-group">
+                                        <label class="control-label">
+                                            Percentage Discount %
+                                        </label>
+                                        <input type="number" placeholder="Enter percentage discount on product" class="form-control"
+                                               name="discount"
+                                               ng-model="vm.discount.discountPercentage" ng-change="vm.computeDiscountedPrice()" ng-pattern="/^[0-9]+(\.[0-9]{1,7})?$/"/>
+                                    </div>
+
+                                    <div ng-if="vm.type == 'productSubCategory' || vm.type == 'productCategory'" class="form-group">
+                                        <label class="control-label">
+                                            Flat Discount
+                                        </label>
+                                        <input type="number" placeholder="Enter flat discount on product" class="form-control"
+                                               name="flatDiscount"
+                                               ng-model="vm.discount.discountFixed" ng-change="vm.computeDiscountedPrice()" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"/>
+                                    </div>
+
+                                    <div ng-if="vm.type == 'dietitian'" class="form-group"
+                                         ng-class="{'has-error':vm.form.discountPrice.$dirty && vm.form.discountPrice.$invalid, 'has-success':vm.form.discountPrice.$valid}">
+
+                                    <label class="control-label">
+                                            Dicounted Price (&#8377;) <span class="symbol required"></span>
+                                        </label>
+                                        <input type="number" placeholder="Discounted price of product" class="form-control"
+                                               name="discountPrice"
+                                               ng-model="vm.discount.discountPrice" ng-pattern="/^[0-9]+(\.[0-9]{1,7})?$/" ng-readonly="true" required/>
+                                        <span class="error text-small block"
+                                              ng-if="vm.form.discountPrice.$dirty && vm.form.discountPrice.$error.required">Price is required</span>
+                                        <span class="error text-small block" ng-if="vm.form.discountPrice.$error.pattern">Invalid Characters</span>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group"
+                                         ng-class="{'has-error':vm.form.totalPeople.$dirty && vm.form.totalPeople.$invalid, 'has-success':vm.form.totalPeople.$valid}">
+                                        <label class="control-label">
+                                            Times an individual can apply code <span class="symbol required"></span>
+                                        </label>
+                                        <input type="number" placeholder="Enter number of people" class="form-control"
+                                               name="totalPeople"
+                                               ng-model="vm.couponView.coupon.maxTimesApplicable" ng-pattern="/^[1-9][0-9]*$/" required/>
+                                        <span class="error text-small block"
+                                              ng-if="vm.form.totalPeople.$dirty && vm.form.totalPeople.$error.required">Number of people are required</span>
+                                        <span class="error text-small block" ng-if="vm.form.totalPeople.$error.pattern">Invalid Characters</span>
+                                    </div>
+
+                                    <div class="form-group margin-left-15"
+                                         ng-class="{'has-error':vm.form.couponCode.$dirty && vm.form.couponCode.$invalid, 'has-success':vm.form.couponCode.$valid}">
+
+                                    <label class="control-label">
+                                            Coupon Code <span class="symbol required"></span>
+                                        </label>
+                                        <div class="row">
+                                            <input type="text" placeholder="Coupon code" class="form-control"
+                                                   name="couponCode" ng-readonly="true" ng-model="vm.couponView.coupon.couponCode" required>
+                                            <span class="error text-small block"
+                                                  ng-if="vm.form.couponCode.$dirty && vm.form.couponCode.$error.required">Coupon code is required</span>
+                                        </div>
+                                        <div class="row margin-top-15">
+                                            <button type="button" class="btn btn-wide btn-light-orange" ng-click="vm.generateCouponCode()" ng-disabled="vm.couponView.coupon.couponCode">
+                                                Generate Coupon Code
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-wide btn-success"
+                                            ng-click="vm.submit()">
+                                        Save
+                                    </button>
+                                    <button type="reset" class="btn btn-wide btn-warning"
+                                            ng-click="vm.reset()">
+                                        Reset
+                                    </button>
+                                    <a ui-sref="app.product.list" class="btn btn-wide btn-danger">
+                                        Back
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

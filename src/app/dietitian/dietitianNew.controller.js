@@ -13,28 +13,25 @@
         vm.dietitian={};
         vm.dietitian.discount = 0;
 
+        vm.progress = false;
+
         vm.breadcrumbRoute = breadcrumbRoute;
 
         function breadcrumbRoute() {
             $state.go('app.notice')
         }
 
-        vm.computeDiscountedPrice = function () {
-            if(vm.dietitian.discount == undefined)
-                vm.dietitian.discountPrice = vm.dietitian.price;
-            else
-            vm.dietitian.discountPrice = vm.dietitian.price - (vm.dietitian.discount*vm.dietitian.price/100);
+        vm.hideAlertBox = function () {
+            vm.errorMessage = false;
         };
 
         vm.submit = function () {
-            if (vm.form.name.$invalid) {
+            if (vm.form.$invalid) {
                 validationHelperFactory.manageValidationFailed(vm.form);
                 vm.errorMessage = 'Validation error';
                 return;
 
             } else {
-                if(vm.dietitian.discount == undefined)
-                    vm.dietitian.discount = 0;
 
                 vm.dietitian.role = USER_ROLE.ROLE_DIETITIAN;
 
@@ -76,9 +73,9 @@
             vm.form.$setUntouched();
             vm.dietitian = {};
             vm.file = null;
-            vm.progress = null;
-            vm.dietitian.discount = 0;
+            vm.progressImage = null;
             vm.errorMessage = null;
+            vm.hideAlertBox();
         }
 
         vm.submitImage = function(){ //function to call on form submit
@@ -106,7 +103,7 @@
             }, function (evt) {
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-                vm.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
+                vm.progressImage = 'progress: ' + progressPercentage + '% '; // capture upload progress
             });
         };
     }

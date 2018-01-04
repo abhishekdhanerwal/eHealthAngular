@@ -6,6 +6,9 @@
         'app.layout',
         'app.myProfile',
         'app.product',
-        'app.dietitian'
+        'app.consumer',
+        'app.coupon',
+        'app.dietitian',
+        'app.ingredient'
     ]);
 })();

@@ -10,14 +10,65 @@
     function productFactory($http) {
         var service = {};
 
-        service.addProduct = function (obj) {
-            var promise = $http.post(__env.dataServerUrl + '/product/save', obj)
+        service.addCategory = function (category) {
+            var promise = $http.post(__env.dataServerUrl + '/product/addCategory', category)
                 .then(
                     function (data) {
                         return data;
                     },
                     function (errors) {
                         console.log(errors);
+                        return errors;
+                    });
+            return promise;
+        };
+
+        service.getCategoryList = function () {
+            var promise = $http.get(__env.dataServerUrl + '/product/categoryList')
+                .then(
+                    function (data) {
+                        return data;
+                    },
+                    function (errors) {
+                        console.log(errors);
+                        return errors;
+                    });
+            return promise;
+        };
+
+        service.addSubCategory = function (category, subcategory) {
+            var promise = $http.post(__env.dataServerUrl + '/product/addSubCategory/' + category._id, subcategory)
+                .then(
+                    function (data) {
+                        return data;
+                    },
+                    function (errors) {
+                        console.log(errors);
+                        return errors;
+                    });
+            return promise;
+        };
+
+        service.getSubCategoryList = function (id) {
+            var promise = $http.get(__env.dataServerUrl + '/product/subCategoryList/'+id)
+                .then(
+                    function (data) {
+                        return data;
+                    },
+                    function (errors) {
+                        console.log(errors);
+                        return errors;
+                    });
+            return promise;
+        };
+
+        service.addProduct = function (id , obj) {
+            var promise = $http.post(__env.dataServerUrl + '/product/save/' + id, obj)
+                .then(
+                    function (data) {
+                        return data;
+                    },
+                    function (errors) {
                         return errors;
                     });
             return promise;

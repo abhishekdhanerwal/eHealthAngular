@@ -4,3 +4,10 @@
     background-color: #B22222; }
 .sweet-alert button.cancel:active {
     background-color: #B22222; }
+
+.double-bounce1 {
+    background-color: red;
+}
+.double-bounce2 {
+    background-color: lightcoral;
+}

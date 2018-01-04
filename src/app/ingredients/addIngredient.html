@@ -1,0 +1,903 @@
+<!-- start: BREADCRUMB -->
+<div class="breadcrumb-wrapper" ng-click="vm.breadcrumbRoute()">
+    <h4 class="mainTitle no-margin" >New Ingredient</h4>
+
+    <div ncy-breadcrumb class="pull-right"></div>
+</div>
+<!-- end: BREADCRUMB -->
+<div class="container-fluid container-fullw">
+
+    <div class="row" ng-show="vm.errorMessage">
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                <button class="close" ng-click="vm.hideAlertBox()">
+                    &times;
+                </button>
+                <strong>Error!</strong> {{vm.errorMessage}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-body">
+
+                    <ng-form name="vm.form" role="form" id="form" novalidate>
+                        <fieldset>
+                            <legend>
+                                Ingredient Info
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group"
+                                         ng-class="{'has-error':vm.form.name.$dirty && vm.form.name.$invalid, 'has-success':vm.form.name.$valid}">
+                                        <label class="control-label">
+                                            Name <span class="symbol required"></span>
+                                        </label>
+                                        <input type="text" placeholder="Ingredient name" class="form-control" name="name"
+                                               ng-model="vm.ingredient.name" ng-pattern="/^[a-zA-Z\s]*$/" required>
+                                        <span class="error text-small block"
+                                              ng-if="vm.form.name.$dirty && vm.form.name.$error.required">Ingredient name is required</span>
+                                        <span class="error text-small block" ng-if="vm.form.name.$error.pattern">Invalid Characters</span>
+                                    </div>
+
+                                    <div class="form-group"
+                                         ng-class="{'has-error':vm.form.energy.$dirty && vm.form.energy.$invalid, 'has-success':vm.form.energy.$valid}">
+                                        <label class="control-label">
+                                            Energy (per 100 gm) <span class="symbol required"></span>
+                                        </label>
+                                        <input type="number" placeholder="Enter energy of ingredient" class="form-control"
+                                               name="energy"
+                                               ng-model="vm.ingredient.energy" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required/>
+                                        <span class="error text-small block"
+                                              ng-if="vm.form.energy.$dirty && vm.form.energy.$error.required">Energy is required</span>
+                                        <span class="error text-small block" ng-if="vm.form.energy.$error.pattern">Invalid Characters</span>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="control-label"> Ingredient Image </label><br>
+
+                                    <img style="width:100px;" ngf-thumbnail="vm.file || 'images/eHealth/default_product_icon.png'"/><br><br>
+
+                                    <input
+                                            type="file"
+                                            ngf-select="vm.submitImage()"
+                                            ng-model="vm.file"
+                                            name="file"
+                                            ngf-pattern="'image/*'"
+                                            accept="image/*"
+                                            ngf-max-size="20MB"
+                                    />
+                                    <i ng-show="vm.form.file.$error.required">*required</i><br>
+                                    <i ng-show="vm.form.file.$error.maxSize">File too large
+                                        {{vm.file.size / 1000000|number:1}}MB: max 20M</i>
+                                    <!--<button type="submit" ng-click="vm.submit()">submit</button>-->
+                                    <p>{{vm.progressImage}}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>
+                                Macro Nutrients
+                            </legend>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.fat.$dirty && vm.form.fat.$invalid, 'has-success':vm.form.fat.$valid}">
+                                    <label class="control-label">
+                                        Fat (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter fat of ingredient" class="form-control"
+                                           name="fat"
+                                           ng-model="vm.ingredient.fat" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.fat.$dirty && vm.form.fat.$error.required">Fat is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.fat.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.carbohydrate.$dirty && vm.form.carbohydrate.$invalid, 'has-success':vm.form.carbohydrate.$valid}">
+                                    <label class="control-label">
+                                        Carbohydrate (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter carbohydrate of ingredient" class="form-control"
+                                           name="carbohydrate"
+                                           ng-model="vm.ingredient.carbohydrate" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.carbohydrate.$dirty && vm.form.carbohydrate.$error.required">Carbohydrate is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.carbohydrate.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.protein.$dirty && vm.form.protein.$invalid, 'has-success':vm.form.protein.$valid}">
+                                    <label class="control-label">
+                                        Protein (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter protein of ingredient" class="form-control"
+                                           name="protein"
+                                           ng-model="vm.ingredient.protein" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.protein.$dirty && vm.form.protein.$error.required">Protein is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.protein.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.water.$dirty && vm.form.water.$invalid, 'has-success':vm.form.water.$valid}">
+                                    <label class="control-label">
+                                        Water (in mL) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter water in ingredient" class="form-control"
+                                           name="water"
+                                           ng-model="vm.ingredient.water" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.water.$dirty && vm.form.water.$error.required">Water is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.water.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>
+                                Carbohydrate Components
+                            </legend>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.starch.$dirty && vm.form.starch.$invalid, 'has-success':vm.form.starch.$valid}">
+                                    <label class="control-label">
+                                        Starch (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter starch of ingredient" class="form-control"
+                                           name="starch"
+                                           ng-model="vm.ingredient.starch" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.starch.$dirty && vm.form.starch.$error.required">Starch is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.starch.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.fiber.$dirty && vm.form.fiber.$invalid, 'has-success':vm.form.fiber.$valid}">
+                                    <label class="control-label">
+                                        Fiber (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter fiber of ingredient" class="form-control"
+                                           name="fiber"
+                                           ng-model="vm.ingredient.fiber" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.fiber.$dirty && vm.form.fiber.$error.required">Fiber is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.fiber.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.sugars.$dirty && vm.form.sugars.$invalid, 'has-success':vm.form.sugars.$valid}">
+                                    <label class="control-label">
+                                        Sugars (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter sugars of ingredient" class="form-control"
+                                           name="sugars"
+                                           ng-model="vm.ingredient.sugars" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.sugars.$dirty && vm.form.sugars.$error.required">Sugars is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.sugars.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.glucose.$dirty && vm.form.glucose.$invalid, 'has-success':vm.form.glucose.$valid}">
+                                    <label class="control-label">
+                                        Glucose (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter glucose of ingredient" class="form-control"
+                                           name="glucose"
+                                           ng-model="vm.ingredient.glucose" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.glucose.$dirty && vm.form.glucose.$error.required">Glucose is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.glucose.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.fructose.$dirty && vm.form.fructose.$invalid, 'has-success':vm.form.fructose.$valid}">
+                                    <label class="control-label">
+                                        Fructose (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter fructose of ingredient" class="form-control"
+                                           name="fructose"
+                                           ng-model="vm.ingredient.fructose" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.fructose.$dirty && vm.form.fructose.$error.required">Fructose is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.fructose.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.maltose.$dirty && vm.form.maltose.$invalid, 'has-success':vm.form.maltose.$valid}">
+                                    <label class="control-label">
+                                        Maltose (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter maltose of ingredient" class="form-control"
+                                           name="maltose"
+                                           ng-model="vm.ingredient.maltose" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.maltose.$dirty && vm.form.maltose.$error.required">Maltose is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.maltose.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.oligoSaccharide.$dirty && vm.form.oligoSaccharide.$invalid, 'has-success':vm.form.oligoSaccharide.$valid}">
+                                    <label class="control-label">
+                                        OligoSaccharide (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter oligoSaccharide of ingredient" class="form-control"
+                                           name="oligoSaccharide"
+                                           ng-model="vm.ingredient.oligoSaccharide" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.oligoSaccharide.$dirty && vm.form.oligoSaccharide.$error.required">oligoSaccharide is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.oligoSaccharide.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.freeSugar.$dirty && vm.form.freeSugar.$invalid, 'has-success':vm.form.freeSugar.$valid}">
+                                    <label class="control-label">
+                                        Free Sugar (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter freeSugar of ingredient" class="form-control"
+                                           name="freeSugar"
+                                           ng-model="vm.ingredient.freeSugar" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.freeSugar.$dirty && vm.form.freeSugar.$error.required">freeSugar is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.freeSugar.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.nsp.$dirty && vm.form.nsp.$invalid, 'has-success':vm.form.nsp.$valid}">
+                                    <label class="control-label">
+                                        NSP (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter nsp of ingredient" class="form-control"
+                                           name="nsp"
+                                           ng-model="vm.ingredient.nsp" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.nsp.$dirty && vm.form.nsp.$error.required">nsp is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.nsp.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.glactose.$dirty && vm.form.glactose.$invalid, 'has-success':vm.form.glactose.$valid}">
+                                    <label class="control-label">
+                                        Glactose (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter glactose of ingredient" class="form-control"
+                                           name="glactose"
+                                           ng-model="vm.ingredient.glactose" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.glactose.$dirty && vm.form.glactose.$error.required">Glactose is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.glactose.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.sucrose.$dirty && vm.form.sucrose.$invalid, 'has-success':vm.form.sucrose.$valid}">
+                                    <label class="control-label">
+                                        Sucrose (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter sucrose of ingredient" class="form-control"
+                                           name="sucrose"
+                                           ng-model="vm.ingredient.sucrose" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.sucrose.$dirty && vm.form.sucrose.$error.required">Sucrose is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.sucrose.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.lactose.$dirty && vm.form.lactose.$invalid, 'has-success':vm.form.lactose.$valid}">
+                                    <label class="control-label">
+                                        Lactose (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter lactose of ingredient" class="form-control"
+                                           name="lactose"
+                                           ng-model="vm.ingredient.lactose" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.lactose.$dirty && vm.form.lactose.$error.required">Lactose is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.lactose.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>
+                                Lipid Components
+                            </legend>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.saturatedFat.$dirty && vm.form.saturatedFat.$invalid, 'has-success':vm.form.saturatedFat.$valid}">
+                                    <label class="control-label">
+                                        Saturated Fat (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter saturatedFat of ingredient" class="form-control"
+                                           name="saturatedFat"
+                                           ng-model="vm.ingredient.saturatedFat" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.saturatedFat.$dirty && vm.form.saturatedFat.$error.required">saturatedFat is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.saturatedFat.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.cisMono.$dirty && vm.form.cisMono.$invalid, 'has-success':vm.form.cisMono.$valid}">
+                                    <label class="control-label">
+                                        cis-Mono (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter cisMono of ingredient" class="form-control"
+                                           name="cisMono"
+                                           ng-model="vm.ingredient.cisMono" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.cisMono.$dirty && vm.form.cisMono.$error.required">cisMono is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.cisMono.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.omegaThree.$dirty && vm.form.omegaThree.$invalid, 'has-success':vm.form.omegaThree.$valid}">
+                                    <label class="control-label">
+                                        Omega-3(n-3) (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter omega of ingredient" class="form-control"
+                                           name="omegaThree"
+                                           ng-model="vm.ingredient.omegaThree" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.omegaThree.$dirty && vm.form.omegaThree.$error.required">omegaThree is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.omegaThree.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.cisPoly.$dirty && vm.form.cisPoly.$invalid, 'has-success':vm.form.cisPoly.$valid}">
+                                    <label class="control-label">
+                                        cis-Poly (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter cisPoly of ingredient" class="form-control"
+                                           name="cisPoly"
+                                           ng-model="vm.ingredient.cisPoly" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.cisPoly.$dirty && vm.form.cisPoly.$error.required">cisPoly is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.cisPoly.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.cholestrol.$dirty && vm.form.cholestrol.$invalid, 'has-success':vm.form.cholestrol.$valid}">
+                                    <label class="control-label">
+                                        Cholestrol (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter cholestrol of ingredient" class="form-control"
+                                           name="cholestrol"
+                                           ng-model="vm.ingredient.cholestrol" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.cholestrol.$dirty && vm.form.cholestrol.$error.required">cholestrol is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.cholestrol.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.monoSaturatedFat.$dirty && vm.form.monoSaturatedFat.$invalid, 'has-success':vm.form.monoSaturatedFat.$valid}">
+                                    <label class="control-label">
+                                        Mono Saturated Fat (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter monoSaturatedFat of ingredient" class="form-control"
+                                           name="monoSaturatedFat"
+                                           ng-model="vm.ingredient.monoSaturatedFat" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.monoSaturatedFat.$dirty && vm.form.monoSaturatedFat.$error.required">monoSaturatedFat is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.monoSaturatedFat.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.polySaturatedFat.$dirty && vm.form.polySaturatedFat.$invalid, 'has-success':vm.form.polySaturatedFat.$valid}">
+                                    <label class="control-label">
+                                        Poly Saturated Fat (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter polySaturatedFat of ingredient" class="form-control"
+                                           name="polySaturatedFat"
+                                           ng-model="vm.ingredient.polySaturatedFat" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.polySaturatedFat.$dirty && vm.form.polySaturatedFat.$error.required">polySaturatedFat is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.polySaturatedFat.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.omegaSix.$dirty && vm.form.omegaSix.$invalid, 'has-success':vm.form.omegaSix.$valid}">
+                                    <label class="control-label">
+                                        Omega6(n-6) (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter omegaSix of ingredient" class="form-control"
+                                           name="omegaSix"
+                                           ng-model="vm.ingredient.omegaSix" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.omegaSix.$dirty && vm.form.omegaSix.$error.required">omegaSix is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.omegaSix.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.transFattyAcids.$dirty && vm.form.transFattyAcids.$invalid, 'has-success':vm.form.transFattyAcids.$valid}">
+                                    <label class="control-label">
+                                        Trans Fatty Acids (per 100 gm) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter transFattyAcids of ingredient" class="form-control"
+                                           name="transFattyAcids"
+                                           ng-model="vm.ingredient.transFattyAcids" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.transFattyAcids.$dirty && vm.form.transFattyAcids.$error.required">transFattyAcids is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.transFattyAcids.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>
+                                Mineral & Trace Elements
+                            </legend>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.sodium.$dirty && vm.form.sodium.$invalid, 'has-success':vm.form.sodium.$valid}">
+                                    <label class="control-label">
+                                        Sodium (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter sodium of ingredient" class="form-control"
+                                           name="sodium"
+                                           ng-model="vm.ingredient.sodium" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.sodium.$dirty && vm.form.sodium.$error.required">sodium is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.sodium.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.chloride.$dirty && vm.form.chloride.$invalid, 'has-success':vm.form.chloride.$valid}">
+                                    <label class="control-label">
+                                        Chloride (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter chloride of ingredient" class="form-control"
+                                           name="chloride"
+                                           ng-model="vm.ingredient.chloride" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.chloride.$dirty && vm.form.chloride.$error.required">chloride is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.chloride.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.phosphorus.$dirty && vm.form.phosphorus.$invalid, 'has-success':vm.form.phosphorus.$valid}">
+                                    <label class="control-label">
+                                        Phosphorus (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter phosphorus of ingredient" class="form-control"
+                                           name="phosphorus"
+                                           ng-model="vm.ingredient.phosphorus" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.phosphorus.$dirty && vm.form.phosphorus.$error.required">phosphorus is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.phosphorus.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.iron.$dirty && vm.form.iron.$invalid, 'has-success':vm.form.iron.$valid}">
+                                    <label class="control-label">
+                                        Iron (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter iron of ingredient" class="form-control"
+                                           name="iron"
+                                           ng-model="vm.ingredient.iron" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.iron.$dirty && vm.form.iron.$error.required">iron is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.iron.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.copper.$dirty && vm.form.copper.$invalid, 'has-success':vm.form.copper.$valid}">
+                                    <label class="control-label">
+                                        Copper (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter copper of ingredient" class="form-control"
+                                           name="copper"
+                                           ng-model="vm.ingredient.copper" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.copper.$dirty && vm.form.copper.$error.required">copper is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.copper.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.selenium.$dirty && vm.form.selenium.$invalid, 'has-success':vm.form.selenium.$valid}">
+                                    <label class="control-label">
+                                        Selenium (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter selenium of ingredient" class="form-control"
+                                           name="selenium"
+                                           ng-model="vm.ingredient.selenium" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.selenium.$dirty && vm.form.selenium.$error.required">selenium is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.selenium.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.potassium.$dirty && vm.form.potassium.$invalid, 'has-success':vm.form.potassium.$valid}">
+                                    <label class="control-label">
+                                        Potassium (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter potassium of ingredient" class="form-control"
+                                           name="potassium"
+                                           ng-model="vm.ingredient.potassium" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.potassium.$dirty && vm.form.potassium.$error.required">potassium is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.potassium.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.calcium.$dirty && vm.form.calcium.$invalid, 'has-success':vm.form.calcium.$valid}">
+                                    <label class="control-label">
+                                        Calcium (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter calcium of ingredient" class="form-control"
+                                           name="calcium"
+                                           ng-model="vm.ingredient.calcium" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.calcium.$dirty && vm.form.calcium.$error.required">calcium is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.calcium.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.magnesium.$dirty && vm.form.magnesium.$invalid, 'has-success':vm.form.magnesium.$valid}">
+                                    <label class="control-label">
+                                        Magnesium (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter magnesium of ingredient" class="form-control"
+                                           name="magnesium"
+                                           ng-model="vm.ingredient.magnesium" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.magnesium.$dirty && vm.form.magnesium.$error.required">magnesium is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.magnesium.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.zinc.$dirty && vm.form.zinc.$invalid, 'has-success':vm.form.zinc.$valid}">
+                                    <label class="control-label">
+                                        Zinc (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter zinc of ingredient" class="form-control"
+                                           name="zinc"
+                                           ng-model="vm.ingredient.zinc" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.zinc.$dirty && vm.form.zinc.$error.required">zinc is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.zinc.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.manganese.$dirty && vm.form.manganese.$invalid, 'has-success':vm.form.manganese.$valid}">
+                                    <label class="control-label">
+                                        Manganese (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter manganese of ingredient" class="form-control"
+                                           name="manganese"
+                                           ng-model="vm.ingredient.manganese" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.manganese.$dirty && vm.form.manganese.$error.required">manganese is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.manganese.$error.pattern">Invalid Characters</span>
+                                </div>
+
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.iodine.$dirty && vm.form.iodine.$invalid, 'has-success':vm.form.iodine.$valid}">
+                                    <label class="control-label">
+                                        Iodine (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter iodine of ingredient" class="form-control"
+                                           name="iodine"
+                                           ng-model="vm.ingredient.iodine" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.iodine.$dirty && vm.form.iodine.$error.required">iodine is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.iodine.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>
+                                Vitamins
+                            </legend>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.vitaminA.$dirty && vm.form.vitaminA.$invalid, 'has-success':vm.form.vitaminA.$valid}">
+                                    <label class="control-label">
+                                        Vitamin A (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter vitaminA of ingredient" class="form-control"
+                                           name="vitaminA"
+                                           ng-model="vm.ingredient.vitaminA" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.vitaminA.$dirty && vm.form.vitaminA.$error.required">vitaminA is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.vitaminA.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.carotene.$dirty && vm.form.carotene.$invalid, 'has-success':vm.form.carotene.$valid}">
+                                    <label class="control-label">
+                                        Carotene (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter carotene of ingredient" class="form-control"
+                                           name="carotene"
+                                           ng-model="vm.ingredient.carotene" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.carotene.$dirty && vm.form.carotene.$error.required">carotene is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.carotene.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.vitaminE.$dirty && vm.form.vitaminE.$invalid, 'has-success':vm.form.vitaminE.$valid}">
+                                    <label class="control-label">
+                                        Vitamin E (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter vitaminE of ingredient" class="form-control"
+                                           name="vitaminE"
+                                           ng-model="vm.ingredient.vitaminE" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.vitaminE.$dirty && vm.form.vitaminE.$error.required">vitaminE is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.vitaminE.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.thiamin.$dirty && vm.form.thiamin.$invalid, 'has-success':vm.form.thiamin.$valid}">
+                                    <label class="control-label">
+                                        Thiamin(B1) (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter thiamin of ingredient" class="form-control"
+                                           name="thiamin"
+                                           ng-model="vm.ingredient.thiaminBOne" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.thiamin.$dirty && vm.form.thiamin.$error.required">thiamin is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.thiamin.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.niacinTotal.$dirty && vm.form.niacinTotal.$invalid, 'has-success':vm.form.niacinTotal.$valid}">
+                                    <label class="control-label">
+                                        Niacin Total(B3) (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter niacinTotal of ingredient" class="form-control"
+                                           name="niacinTotal"
+                                           ng-model="vm.ingredient.niacinTotalBThree" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.niacinTotal.$dirty && vm.form.niacinTotal.$error.required">niacinTotal is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.niacinTotal.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.tryptophan.$dirty && vm.form.tryptophan.$invalid, 'has-success':vm.form.tryptophan.$valid}">
+                                    <label class="control-label">
+                                        Tryptophan (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter tryptophan of ingredient" class="form-control"
+                                           name="tryptophan"
+                                           ng-model="vm.ingredient.tryptophan" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.tryptophan.$dirty && vm.form.tryptophan.$error.required">tryptophan is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.tryptophan.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.vitaminBSix.$dirty && vm.form.vitaminBSix.$invalid, 'has-success':vm.form.vitaminBSix.$valid}">
+                                    <label class="control-label">
+                                        Vitamin B6 (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter vitaminBSix of ingredient" class="form-control"
+                                           name="vitaminBSix"
+                                           ng-model="vm.ingredient.vitaminBSix" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.vitaminBSix.$dirty && vm.form.vitaminBSix.$error.required">vitaminBSix is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.vitaminBSix.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.vitaminBTwelve.$dirty && vm.form.vitaminBTwelve.$invalid, 'has-success':vm.form.vitaminBTwelve.$valid}">
+                                    <label class="control-label">
+                                        Vitamin B12 (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter vitaminBTwelve of ingredient" class="form-control"
+                                           name="vitaminBTwelve"
+                                           ng-model="vm.ingredient.vitaminBTwelve" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.vitaminBTwelve.$dirty && vm.form.vitaminBTwelve.$error.required">vitaminBTwelve is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.vitaminBTwelve.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.vitaminC.$dirty && vm.form.vitaminC.$invalid, 'has-success':vm.form.vitaminC.$valid}">
+                                    <label class="control-label">
+                                        Vitamin C (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter vitaminC of ingredient" class="form-control"
+                                           name="vitaminC"
+                                           ng-model="vm.ingredient.vitaminC" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.vitaminC.$dirty && vm.form.vitaminC.$error.required">vitaminC is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.vitaminC.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.retinol.$dirty && vm.form.retinol.$invalid, 'has-success':vm.form.retinol.$valid}">
+                                    <label class="control-label">
+                                        Retinol (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter retinol of ingredient" class="form-control"
+                                           name="retinol"
+                                           ng-model="vm.ingredient.retinol" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.retinol.$dirty && vm.form.retinol.$error.required">retinol is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.retinol.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.vitaminD.$dirty && vm.form.vitaminD.$invalid, 'has-success':vm.form.vitaminD.$valid}">
+                                    <label class="control-label">
+                                        Vitamin D (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter vitaminD of ingredient" class="form-control"
+                                           name="vitaminD"
+                                           ng-model="vm.ingredient.vitaminD" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.vitaminD.$dirty && vm.form.vitaminD.$error.required">vitaminD is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.vitaminD.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.vitaminK.$dirty && vm.form.vitaminK.$invalid, 'has-success':vm.form.vitaminK.$valid}">
+                                    <label class="control-label">
+                                        Vitamin K1 (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter vitaminK of ingredient" class="form-control"
+                                           name="vitaminK"
+                                           ng-model="vm.ingredient.vitaminK" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.vitaminK.$dirty && vm.form.vitaminK.$error.required">vitaminK is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.vitaminK.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.riboflavin.$dirty && vm.form.riboflavin.$invalid, 'has-success':vm.form.riboflavin.$valid}">
+                                    <label class="control-label">
+                                        Riboflavin(B2) (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter riboflavin of ingredient" class="form-control"
+                                           name="riboflavin"
+                                           ng-model="vm.ingredient.riboflavin" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.riboflavin.$dirty && vm.form.riboflavin.$error.required">riboflavin is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.riboflavin.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.niacin.$dirty && vm.form.niacin.$invalid, 'has-success':vm.form.niacin.$valid}">
+                                    <label class="control-label">
+                                        Niacin (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter niacin of ingredient" class="form-control"
+                                           name="niacin"
+                                           ng-model="vm.ingredient.niacin" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.niacin.$dirty && vm.form.niacin.$error.required">niacin is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.niacin.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.pantothenicAcid.$dirty && vm.form.pantothenicAcid.$invalid, 'has-success':vm.form.pantothenicAcid.$valid}">
+                                    <label class="control-label">
+                                        Pantothenic Acid(B5) (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter pantothenicAcid of ingredient" class="form-control"
+                                           name="pantothenicAcid"
+                                           ng-model="vm.ingredient.pantothenicAcid" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.pantothenicAcid.$dirty && vm.form.pantothenicAcid.$error.required">pantothenicAcid is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.pantothenicAcid.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.folicAcid.$dirty && vm.form.folicAcid.$invalid, 'has-success':vm.form.folicAcid.$valid}">
+                                    <label class="control-label">
+                                        Folic Acid(B9) (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter folicAcid of ingredient" class="form-control"
+                                           name="folicAcid"
+                                           ng-model="vm.ingredient.folicAcid" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block"
+                                          ng-if="vm.form.folicAcid.$dirty && vm.form.folicAcid.$error.required">folicAcid is required</span>
+                                    <span class="error text-small block" ng-if="vm.form.folicAcid.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.biotin.$dirty && vm.form.biotin.$invalid, 'has-success':vm.form.biotin.$valid}">
+                                    <label class="control-label">
+                                        Biotin(B7) (per 100 mg) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter biotin of ingredient" class="form-control"
+                                           name="biotin"
+                                           ng-model="vm.ingredient.biotin" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+
+                                    <span class="error text-small block" ng-if="vm.form.biotin.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>
+                                Others
+                            </legend>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.gi.$dirty && vm.form.gi.$invalid, 'has-success':vm.form.gi.$valid}">
+                                    <label class="control-label">
+                                        GI (estimated) <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter gi of ingredient" class="form-control"
+                                           name="gi"
+                                           ng-model="vm.ingredient.gi" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+
+                                    <span class="error text-small block" ng-if="vm.form.gi.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.pral.$dirty && vm.form.pral.$invalid, 'has-success':vm.form.pral.$valid}">
+                                    <label class="control-label">
+                                        PRAL <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter pral of ingredient" class="form-control"
+                                           name="pral"
+                                           ng-model="vm.ingredient.pral" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+
+                                    <span class="error text-small block" ng-if="vm.form.pral.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.gl.$dirty && vm.form.gl.$invalid, 'has-success':vm.form.gl.$valid}">
+                                    <label class="control-label">
+                                        GL <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter gl of ingredient" class="form-control"
+                                           name="gl"
+                                           ng-model="vm.ingredient.gl" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                           />
+                                    <span class="error text-small block" ng-if="vm.form.gl.$error.pattern">Invalid Characters</span>
+                                </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error':vm.form.caffeine.$dirty && vm.form.caffeine.$invalid, 'has-success':vm.form.caffeine.$valid}">
+                                    <label class="control-label">
+                                        Caffeine <span class="symbol required"></span>
+                                    </label>
+                                    <input type="number" placeholder="Enter caffeine of ingredient" class="form-control"
+                                           name="caffeine"
+                                           ng-model="vm.ingredient.caffeine" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" />
+                                    <span class="error text-small block" ng-if="vm.form.caffeine.$error.pattern">Invalid Characters</span>
+                                </div>
+                            </div>
+                        </fieldset>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-wide btn-success"
+                                            ng-click="vm.submit()">
+                                        Save
+                                    </button>
+                                    <button type="reset" class="btn btn-wide btn-warning"
+                                            ng-click="vm.reset()">
+                                        Reset
+                                    </button>
+                                    <a ui-sref="app.product.list" class="btn btn-wide btn-danger">
+                                        Back
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

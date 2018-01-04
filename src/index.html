@@ -52,11 +52,14 @@
     <!-- Packet CSS -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/plugins.css">
-    <link rel="stylesheet" href="css/eHealth.css">
 
     <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.css" />
+    <link rel="stylesheet" href="bower_components/ng-notify/dist/ng-notify.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-spinkit/build/angular-spinkit.min.css">
 
-  <!-- Packet Theme -->
+    <link rel="stylesheet" href="css/eHealth.css">
+
+    <!-- Packet Theme -->
     <link rel="stylesheet" data-ng-href="css/themes/{{ app.layout.theme }}.css" />
     <!-- Favicon -->
     <link rel="shortcut icon" href="favicon.ico" />
@@ -158,6 +161,12 @@
     <script src="bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
     <script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/ng-notify/dist/ng-notify.min.js"></script>
+    <script src="bower_components/angular-spinkit/build/angular-spinkit.min.js"></script>
+
+
+
     <script src="app/env.js"></script>
 
     <!-- Packet Scripts -->
@@ -214,6 +223,21 @@
     <script src="app/dietitian/dietitianNew.controller.js"></script>
     <script src="app/dietitian/dietitianList.controller.js"></script>
     <script src="app/dietitian/dietitianEdit.controller.js"></script>
+
+    <script src="app/consumer-management/consumer.module.js"></script>
+    <script src="app/consumer-management/consumer.controller.js"></script>
+    <script src="app/consumer-management/consumer.service.js"></script>
+
+    <script src="app/coupon/coupon.module.js"></script>
+    <script src="app/coupon/couponList.controller.js"></script>
+    <script src="app/coupon/couponNew.controller.js"></script>
+    <script src="app/coupon/coupon.service.js"></script>
+
+    <script src="app/ingredients/ingredient.module.js"></script>
+    <script src="app/ingredients/ingredientList.controller.js"></script>
+    <script src="app/ingredients/ingredientNew.controller.js"></script>
+    <script src="app/ingredients/ingredientEdit.controller.js"></script>
+    <script src="app/ingredients/ingredient.service.js"></script>
 
 
 </body>

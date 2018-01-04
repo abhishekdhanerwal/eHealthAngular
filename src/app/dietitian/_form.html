@@ -1,4 +1,6 @@
-<ng-form name="vm.form" role="form" id="form" novalidate>
+<double-bounce-spinner ng-show="vm.progress" ></double-bounce-spinner>
+
+<ng-form ng-if="!vm.progress" name="vm.form" role="form" id="form" novalidate>
     <fieldset>
         <legend>
             Dietitian Info
@@ -27,28 +29,37 @@
                     <span class="error text-small block" ng-if="vm.form.email.$error.email">Please, enter a valid email address.</span>
                 </div>
 
+                <div class="row">
+
+                    <div class="col-md-6">
                 <div class="form-group"
-                     ng-class="{'has-error':vm.form.mobile.$dirty && vm.form.mobile.$invalid, 'has-success':vm.form.mobile.$valid}">
-                    <label class="control-label"> Mobile Number <span class="symbol required"></span> </label>
-                    <input type="text" placeholder="Enter your Mobile Number" class="form-control" name="mobile"
-                           ng-model="vm.dietitian.mobile" ng-pattern="/^[0-9]*$/" ng-minlength=10
-                           ng-maxlength=10 required/>
+                     ng-class="{'has-error':vm.form.state.$dirty && vm.form.state.$invalid, 'has-success':vm.form.state.$valid}">
+                    <label class="control-label"> State <span class="symbol required"></span> </label>
+                    <input type="text" placeholder="Enter dietitian state" class="form-control" name="state"
+                           ng-model="vm.dietitian.state" required/>
                     <span class="error text-small block"
-                          ng-if="vm.form.mobile.$error.minlength || vm.form.mobile.$error.maxlength">Please enter a 10 digit number.</span>
-                    <span class="error text-small block" ng-if="vm.form.mobile.$dirty && vm.form.mobile.$invalid">Please enter a valid Mobile number</span>
+                          ng-if="vm.form.state.$dirty && vm.form.state.$error.required">State is required</span>
                 </div>
+                        </div>
+                    <div class="col-md-6">
+                        <div class="form-group"
+                             ng-class="{'has-error':vm.form.city.$dirty && vm.form.city.$invalid, 'has-success':vm.form.city.$valid}">
+                            <label class="control-label"> City <span class="symbol required"></span> </label>
+                            <input type="text" placeholder="Enter dietitian city" class="form-control" name="city"
+                                   ng-model="vm.dietitian.city" required/>
+                            <span class="error text-small block"
+                                  ng-if="vm.form.city.$dirty && vm.form.city.$error.required">City is required</span>
+                        </div>
+
+                        </div>
+                    </div>
 
                 <div class="form-group"
-                     ng-class="{'has-error':vm.form.address.$dirty && vm.form.address.$invalid, 'has-success':vm.form.address.$valid}">
-                    <label class="control-label"> Address <span class="symbol required"></span> </label>
-                    <input type="text" placeholder="Enter dietitian Address" class="form-control" name="address"
-                           ng-model="vm.dietitian.address" ng-minlength=6 ng-maxlength=500 required/>
-                    <span class="error text-small block"
-                          ng-if="vm.form.address.$dirty && vm.form.address.$error.required">Address is required</span>
-                    <span class="error text-small block"
-                          ng-show="vm.form.address.$invalid && vm.form.address.$error.minlength">Address should be six characters or more</span>
-                    <span class="error text-small block"
-                          ng-show="vm.form.address.$invalid && vm.form.address.$error.maxlength">Address should be less than 100 characters</span>
+                     ng-class="{'has-error':vm.form.pinCode.$dirty && vm.form.pinCode.$invalid, 'has-success':vm.form.pinCode.$valid}">
+                    <label class="control-label"> Pin Code <span class="symbol required"></span> </label>
+                    <input type="text" placeholder="Enter your pinCode Number" class="form-control" name="pinCode"
+                           ng-model="vm.dietitian.pinCode" ng-pattern="/^[0-9]*$/" required/>
+                    <span class="error text-small block" ng-if="vm.form.pinCode.$dirty && vm.form.pinCode.$invalid">Please enter a valid pin code number</span>
                 </div>
 
                 <div class="form-group"
@@ -57,11 +68,21 @@
                     <textarea class="form-control custom-control" rows="3" name="description" style="resize:none" ng-model="vm.dietitian.description"
                     ></textarea>
                 </div>
-
             </div>
             <div class="col-md-6">
 
                 <div class="form-group margin-left-25">
+
+                    <div class="form-group"
+                         ng-class="{'has-error':vm.form.mobile.$dirty && vm.form.mobile.$invalid, 'has-success':vm.form.mobile.$valid}">
+                        <label class="control-label"> Mobile Number <span class="symbol required"></span> </label>
+                        <input type="text" placeholder="Enter your Mobile Number" class="form-control" name="mobile"
+                               ng-model="vm.dietitian.mobile" ng-pattern="/^[0-9]*$/" ng-minlength=10
+                               ng-maxlength=10 required/>
+                        <span class="error text-small block"
+                              ng-if="vm.form.mobile.$error.minlength || vm.form.mobile.$error.maxlength">Please enter a 10 digit number.</span>
+                        <span class="error text-small block" ng-if="vm.form.mobile.$dirty && vm.form.mobile.$invalid">Please enter a valid Mobile number</span>
+                    </div>
 
                     <div class="form-group"
                          ng-class="{'has-error':vm.form.price.$dirty && vm.form.price.$invalid, 'has-success':vm.form.price.$valid}">
@@ -76,25 +97,7 @@
                         <span class="error text-small block" ng-if="vm.form.price.$error.pattern">Invalid Characters</span>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label">
-                            Percentage Discount %
-                        </label>
-                        <input type="number" placeholder="Enter discount on dietitian" class="form-control"
-                               name="discount"
-                               ng-model="vm.dietitian.discount" ng-change="vm.computeDiscountedPrice()" ng-pattern="/^[1-9][0-9]*$/" required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label">
-                            Dicounted Price (&#8377;)
-                        </label>
-                        <input type="number" placeholder="Final price of dietitian" class="form-control"
-                               name="discountPrice"
-                               ng-model="vm.dietitian.discountPrice" ng-pattern="/^[1-9][0-9]*$/" ng-readonly="true" required/>
-                    </div>
-
-                    <label class="control-label"> Product Image </label><br>
+                    <label class="control-label"> Dietitian Image </label><br>
 
                     <img style="width:100px;" ngf-thumbnail="vm.file || 'images/eHealth/default_product_icon.png'"/><br><br>
 
@@ -111,7 +114,7 @@
                     <i ng-show="vm.form.file.$error.maxSize">File too large
                         {{vm.file.size / 1000000|number:1}}MB: max 20M</i>
                     <!--<button type="submit" ng-click="vm.submit()">submit</button>-->
-                    <p>{{vm.progress}}
+                    <p>{{vm.progressImage}}
                     </p>
                 </div>
 

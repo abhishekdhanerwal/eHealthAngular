@@ -129,6 +129,74 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         ncyBreadcrumb: {
             label: 'Edit'
         }
+    }).state('app.ingredient', {
+        url: "/ingredient",
+        template: '<div ui-view class="fade-in-up"></div>',
+        title: 'Ingredient',
+        ncyBreadcrumb: {
+            label: 'Ingredient'
+        }
+    }).state('app.ingredient.add', {
+        url: "/add",
+        templateUrl: "app/ingredients/addIngredient.html",
+        controller: 'NewIngredientCtrl',
+        controllerAs: 'vm',
+        title: 'New',
+        ncyBreadcrumb: {
+            label: 'New'
+        }
+    }).state('app.ingredient.list', {
+        url: "/list",
+        templateUrl: "app/ingredients/listIngredient.html",
+        controller: 'ListIngredientCtrl',
+        controllerAs: 'vm',
+        title: 'List',
+        ncyBreadcrumb: {
+            label: 'List'
+        }
+    }).state('app.ingredient.edit', {
+        url: "/edit/:id",
+        templateUrl: "app/ingredients/addIngredient.html",
+        controller: 'EditIngredientCtrl',
+        controllerAs: 'vm',
+        title: 'Edit',
+        ncyBreadcrumb: {
+            label: 'Edit'
+        }
+    }).state('app.coupon', {
+        url: "/coupon",
+        template: '<div ui-view class="fade-in-up"></div>',
+        title: 'Coupon',
+        ncyBreadcrumb: {
+            label: 'Coupon'
+        }
+    }).state('app.coupon.add', {
+        url: "/add",
+        templateUrl: "app/coupon/addCoupon.html",
+        controller: 'NewCouponCtrl',
+        controllerAs: 'vm',
+        title: 'New',
+        ncyBreadcrumb: {
+            label: 'New'
+        }
+    }).state('app.coupon.list', {
+        url: "/list",
+        templateUrl: "app/coupon/listCoupon.html",
+        controller: 'ListCouponCtrl',
+        controllerAs: 'vm',
+        title: 'List',
+        ncyBreadcrumb: {
+            label: 'List'
+        }
+    }).state('app.consumer', {
+            url: "/consumer",
+            templateUrl: "app/consumer-management/consumer.html",
+            controller: 'ConsumerCtrl',
+            controllerAs: 'vm',
+            title: 'Consumer',
+            ncyBreadcrumb: {
+                label: 'Consumer'
+            }
     }).state('app.addVideo', {
         url: "/new",
         templateUrl: "app/channel/addNew.html",
