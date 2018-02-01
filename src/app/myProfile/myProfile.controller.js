@@ -6,9 +6,9 @@
         .module('app.myProfile')
         .controller('MyProfileCtrl', MyProfileCtrl);
 
-    MyProfileCtrl.$inject = ['$state' , '$localStorage', 'Upload', 'toaster', 'profileFactory', '$timeout' , 'validationHelperFactory'];
+    MyProfileCtrl.$inject = ['$state' , '$localStorage', 'Upload', 'toaster', 'profileFactory', '$timeout' , 'validationHelperFactory' , 'role'];
 
-    function MyProfileCtrl($state , $localStorage, Upload  , toaster , profileFactory , $timeout , validationHelperFactory) {
+    function MyProfileCtrl($state , $localStorage, Upload  , toaster , profileFactory , $timeout , validationHelperFactory , role) {
         var vm = this;
         vm.product={};
 
@@ -21,14 +21,20 @@
         activate();
 
         function activate() {
-            profileFactory.getUser($localStorage.__identity.user._id).then(function (response) {
+            profileFactory.getUser($localStorage.__identity.user._id ).then(function (response) {
                 console.log(response)
                 if (response.status == 200) {
-                    vm.user = response.data.user;
-                    if(response.data.user.profilePic)
-                        vm.file = __env.dataServerUrl + '/user/'+ response.data.user.profilePic;
+                    if(role.isAdminRole()){
+                        vm.user = response.data.user;
+                    }
+                    else
+                        vm.user = response.data.data;
+
+                    if(vm.user.profilePic)
+                        vm.file = __env.dataServerUrl + '/user/'+ vm.user.profilePic;
                     else
                         vm.file = null;
+
                 }
                 else if (response.status == -1) {
                     vm.errorMessage = 'Network Error';

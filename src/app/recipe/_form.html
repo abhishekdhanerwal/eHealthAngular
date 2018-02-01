@@ -1,0 +1,262 @@
+<double-bounce-spinner ng-show="vm.progressLoader" ></double-bounce-spinner>
+
+<ng-form ng-if="!vm.progress" name="vm.form" role="form" id="form" novalidate>
+    <fieldset>
+        <legend>
+            Recipe Info
+        </legend>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.name.$dirty && vm.form.name.$invalid, 'has-success':vm.form.name.$valid}">
+                    <label class="control-label">
+                        Name <span class="symbol required"></span>
+                    </label>
+                    <input type="text" placeholder="Recipe name" class="form-control" name="name"
+                           ng-model="vm.recipe.name" ng-pattern="/^[a-zA-Z\s]*$/" required>
+                    <span class="error text-small block"
+                          ng-if="vm.form.name.$dirty && vm.form.name.$error.required">Recipe Name is required</span>
+                    <span class="error text-small block" ng-if="vm.form.name.$error.pattern">Invalid Characters</span>
+                </div>
+                <div class="form-group"
+                     ng-class="{'has-error':vm.form.weight.$dirty && vm.form.weight.$invalid, 'has-success':vm.form.weight.$valid}">
+                    <label class="control-label">
+                        Weight (in Gm) <span class="symbol required"></span>
+                    </label>
+                    <input type="number" placeholder="Enter weight of recipe" class="form-control"
+                           name="weight"
+                           ng-model="vm.recipe.weight" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required/>
+                    <span class="error text-small block"
+                          ng-if="vm.form.weight.$dirty && vm.form.weight.$error.required">Weight is required</span>
+                    <span class="error text-small block" ng-if="vm.form.weight.$error.pattern">Invalid Characters</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label"> Recipe Image </label><br>
+
+                <img style="width:100px;" ngf-thumbnail="vm.file || 'images/eHealth/default_product_icon.png'"/><br><br>
+
+                <input
+                        type="file"
+                        ngf-select="vm.submitImage()"
+                        ng-model="vm.file"
+                        name="file"
+                        ngf-pattern="'image/*'"
+                        accept="image/*"
+                        ngf-max-size="20MB"
+                />
+                <i ng-show="vm.form.file.$error.required">*required</i><br>
+                <i ng-show="vm.form.file.$error.maxSize">File too large
+                    {{vm.file.size / 1000000|number:1}}MB: max 20M</i>
+                <!--<button type="submit" ng-click="vm.submit()">submit</button>-->
+                <p>{{vm.progressImage}}
+                </p>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>
+            Ingredient
+        </legend>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon"> <i class="fa fa-heartbeat"></i> </span>
+                    <input type="text" class="form-control" name="ingredient" placeholder="ingredient search" ng-model="vm.newIngredient"
+                           uib-typeahead="item as item.name  for item in vm.newIngredientList($viewValue)"
+                           typeahead-loading="loadingIngredients" typeahead-min-length="3" typeahead-no-results="noResults"
+                           typeahead-on-select="vm.onSelect($item, $model, $label)"
+                           typeahead-editable='true'>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="btn btn-danger pull-left" ng-click="vm.newIngredient = null" ><i
+                        class="fa fa-times"></i> </div>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary" ui-sref="app.ingredient.add" type="submit">
+                    Add new ingredient
+                </button>
+            </div>
+        </div>
+
+        <div ng-if="vm.recipeIngredientList.length > 0" class="row margin-top-30">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Energy</th>
+                    <th class="text-center">Fat</th>
+                    <th class="text-center">Carbohydrate</th>
+                    <th class="text-center">Protein</th>
+                    <th class="text-center">Units</th>
+                    <th class="text-center">Measurement</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="info text-center" ng-repeat="row in vm.recipeIngredientList">
+                    <td>{{row.name}}</td>
+                    <td>{{row.energy}}</td>
+                    <td>{{row.fat}}</td>
+                    <td>{{row.carbohydrate}}</td>
+                    <td>{{row.protein}}</td>
+                    <td>
+                        <input type="number" placeholder="Enter units of ingredient" class="form-control"
+                               name="units"
+                               ng-model="row.units" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required/>
+                    </td>
+                    <td>
+                        <select class="cs-select cs-skin-elastic" ng-options="item for item in vm.measurementType" ng-model="row.measurement">
+                            <option value="" disabled="">Select</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-red btn-wide btn-scroll btn-scroll-top ti-trash" ng-click="vm.removeRow(row)">
+                            <span>Remove</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr class="active text-center">
+                    <td><strong>Total</strong></td>
+                    <td>{{vm.totalEnergy}}</td>
+                    <td>{{vm.totalFat}}</td>
+                    <td>{{vm.totalCarbohydrate}}</td>
+                    <td>{{vm.totalProtein}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>
+            Other Specifications
+        </legend>
+        <div class="col-md-2 checkbox clip-check check-primary checkbox-inline">
+            <input type="checkbox" id="checkbox10" ng-model="vm.recipe.veg" ng-init="false">
+            <label for="checkbox10">
+                Veg
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-success checkbox-inline">
+            <input type="checkbox" id="checkbox11" ng-model="vm.recipe.nonVeg" ng-init="false">
+            <label for="checkbox11">
+                Non-Veg
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-warning checkbox-inline">
+            <input type="checkbox" id="checkbox12" ng-model="vm.recipe.jain" ng-init="false">
+            <label for="checkbox12">
+                Jain
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-danger checkbox-inline">
+            <input type="checkbox" id="checkbox13" ng-model="vm.recipe.gluterFree" ng-init="false">
+            <label for="checkbox13">
+                Gluten Free
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-info checkbox-inline">
+            <input type="checkbox" id="checkbox14" ng-model="vm.recipe.halal" ng-init="false">
+            <label for="checkbox14">
+                Halal
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-purple checkbox-inline">
+            <input type="checkbox" id="checkbox15" ng-model="vm.recipe.containsGluten" ng-init="false">
+            <label for="checkbox15">
+                May Contain Gluten
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-primary checkbox-inline">
+            <input type="checkbox" id="checkbox16" ng-model="vm.recipe.peanuts" ng-init="false">
+            <label for="checkbox16">
+                Peanuts
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-success checkbox-inline">
+            <input type="checkbox" id="checkbox17" ng-model="vm.recipe.treeNuts" ng-init="false">
+            <label for="checkbox17">
+                Tree Nuts
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-warning checkbox-inline">
+            <input type="checkbox" id="checkbox18" ng-model="vm.recipe.celery" ng-init="false">
+            <label for="checkbox18">
+                Celery
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-danger checkbox-inline">
+            <input type="checkbox" id="checkbox19" ng-model="vm.recipe.mustards" ng-init="false">
+            <label for="checkbox19">
+                Mustards
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-info checkbox-inline">
+            <input type="checkbox" id="checkbox20" ng-model="vm.recipe.eggs" ng-init="false">
+            <label for="checkbox20">
+                Eggs
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-purple checkbox-inline">
+            <input type="checkbox" id="checkbox21" ng-model="vm.recipe.containsMilk" ng-init="false">
+            <label for="checkbox21">
+                Contains Milk
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-primary checkbox-inline">
+            <input type="checkbox" id="checkbox22" ng-model="vm.recipe.sesame" ng-init="false">
+            <label for="checkbox22">
+                Sesame
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-success checkbox-inline">
+            <input type="checkbox" id="checkbox23" ng-model="vm.recipe.fish" ng-init="false">
+            <label for="checkbox23">
+                Fish
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-warning checkbox-inline">
+            <input type="checkbox" id="checkbox24" ng-model="vm.recipe.soya" ng-init="false">
+            <label for="checkbox24">
+                Soya
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-danger checkbox-inline">
+            <input type="checkbox" id="checkbox25" ng-model="vm.recipe.sulphites" ng-init="false">
+            <label for="checkbox25">
+                Sulphites
+            </label>
+        </div>
+        <div class="col-md-2 checkbox clip-check check-info checkbox-inline">
+            <input type="checkbox" id="checkbox26" ng-model="vm.recipe.lupin" ng-init="false">
+            <label for="checkbox26">
+                Lupin
+            </label>
+        </div>
+    </fieldset>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-wide btn-success"
+                        ng-click="vm.submit()">
+                    Save
+                </button>
+                <button type="reset" class="btn btn-wide btn-warning"
+                        ng-click="vm.reset()">
+                    Reset
+                </button>
+                <a ui-sref="app.recipe.list" class="btn btn-wide btn-danger">
+                    Back
+                </a>
+            </div>
+        </div>
+    </div>
+</ng-form>

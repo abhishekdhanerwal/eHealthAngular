@@ -2,8 +2,8 @@
 <div class="navbar-title">
     <span>Main Navigation</span>
 </div>
-<ul class="main-navigation-menu">
-    <li ui-sref-active="active">
+<ul ng-controller="NavCtrl as vm" class="main-navigation-menu">
+    <li ng-if="vm.isAdminRole" ui-sref-active="active">
         <a ui-sref="app.dashboard">
             <div class="item-content">
                 <div class="item-media">
@@ -15,7 +15,7 @@
             </div>
         </a>
     </li>
-    <li ng-class="{'active open':$state.includes('app.product')}" >
+    <li ng-if="vm.isAdminRole" ng-class="{'active open':$state.includes('app.product')}" >
         <a href="javascript:void(0)">
             <div class="item-content">
                 <div class="item-media">
@@ -35,7 +35,27 @@
             </li>
         </ul>
     </li>
-    <li ng-class="{'active open':$state.includes('app.dietitian')}" >
+    <li ng-if="vm.isDietitianRole" ng-class="{'active open':$state.includes('app.recipe')}" >
+        <a href="javascript:void(0)">
+            <div class="item-content">
+                <div class="item-media">
+                    <letter-icon data="Recipe" char-count="1" size="sm"></letter-icon>
+                </div>
+                <div class="item-inner">
+                    <span class="title">Recipe</span><i class="icon-arrow"></i>
+                </div>
+            </div>
+        </a>
+        <ul class="sub-menu">
+            <li ui-sref-active="active" >
+                <a ui-sref="app.recipe.add"> <span class="title"> Add New </span> </a>
+            </li>
+            <li ui-sref-active="active" >
+                <a ui-sref="app.recipe.list"> <span class="title" > List Recipe </span> </a>
+            </li>
+        </ul>
+    </li>
+    <li ng-if="vm.isAdminRole" ng-class="{'active open':$state.includes('app.dietitian')}" >
         <a href="javascript:void(0)">
             <div class="item-content">
                 <div class="item-media">
@@ -75,7 +95,7 @@
             </li>
         </ul>
     </li>
-    <li ui-sref-active="active">
+    <li ng-if="vm.isAdminRole" ui-sref-active="active">
         <a ui-sref="app.consumer">
             <div class="item-content">
                 <div class="item-media">
@@ -88,7 +108,7 @@
         </a>
     </li>
 
-    <li ng-class="{'active open':$state.includes('app.coupon')}" >
+    <li ng-if="vm.isAdminRole" ng-class="{'active open':$state.includes('app.coupon')}" >
         <a href="javascript:void(0)">
             <div class="item-content">
                 <div class="item-media">

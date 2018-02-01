@@ -163,6 +163,40 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         ncyBreadcrumb: {
             label: 'Edit'
         }
+    }).state('app.recipe', {
+        url: "/recipe",
+        template: '<div ui-view class="fade-in-up"></div>',
+        title: 'Recipe',
+        ncyBreadcrumb: {
+            label: 'Recipe'
+        }
+    }).state('app.recipe.add', {
+        url: "/add",
+        templateUrl: "app/recipe/addRecipe.html",
+        controller: 'NewRecipeCtrl',
+        controllerAs: 'vm',
+        title: 'New',
+        ncyBreadcrumb: {
+            label: 'New'
+        }
+    }).state('app.recipe.list', {
+        url: "/list",
+        templateUrl: "app/recipe/listRecipe.html",
+        controller: 'ListRecipeCtrl',
+        controllerAs: 'vm',
+        title: 'List',
+        ncyBreadcrumb: {
+            label: 'List'
+        }
+    }).state('app.recipe.edit', {
+        url: "/edit/:id",
+        templateUrl: "app/recipe/editRecipe.html",
+        controller: 'EditRecipeCtrl',
+        controllerAs: 'vm',
+        title: 'Edit',
+        ncyBreadcrumb: {
+            label: 'Edit'
+        }
     }).state('app.coupon', {
         url: "/coupon",
         template: '<div ui-view class="fade-in-up"></div>',

@@ -14,10 +14,10 @@
     vm.submit = function () {
       console.log(vm.user);
       principal.signin(vm.user).then(function (response) {
-        if(response.user.role == USER_ROLE.ROLE_ADMIN)
+        if(response.user.role == USER_ROLE.ROLE_ADMIN || response.user.role == USER_ROLE.ROLE_DIETITIAN)
              $state.go('app.profile');
           else
-          ngNotify.set('You are not admin !', 'error');
+          ngNotify.set('You are not authorized !', 'error');
       },function (error) {
           console.log(error)
           console.log(error.data.message)

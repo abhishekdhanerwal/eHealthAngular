@@ -9,6 +9,7 @@
         'app.consumer',
         'app.coupon',
         'app.dietitian',
+        'app.recipe',
         'app.ingredient'
     ]);
 })();
