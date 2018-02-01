@@ -7,3 +7,4 @@ Heroku create
     heroku ps:scale web=1
 
     heroku logs --tail
+
