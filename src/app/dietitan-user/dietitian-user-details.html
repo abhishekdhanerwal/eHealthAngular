@@ -1,0 +1,161 @@
+<div class="breadcrumb-wrapper" ng-click="vm.breadcrumbRoute()">
+    <h4 class="mainTitle no-margin">Roshan</h4>
+
+    <div ncy-breadcrumb class="pull-right"></div>
+</div>
+<!-- end: BREADCRUMB -->
+
+<!--<wave-spinner ng-show="vm.progress" ></wave-spinner>-->
+<!-- start: TABLE WITH PAGINATION -->
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-body">
+                    <fieldset>
+                        <legend>
+                            User Info
+                        </legend>
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <h5> Name - Roshan</h5>
+                                <h5> Email - roshan@gmail.com</h5>
+                                <h5> Mobile - 9898987654</h5>
+                            </div>
+
+                            <div class="col-md-3">
+                                <h5>State - Haryana</h5>
+                                <h5>City - Gurgaon</h5>
+                                <h5>PinCode - 122001</h5>
+                            </div>
+
+                            <div class="col-md-3">
+                                <h5>Age - 26</h5>
+                                <h5>Gender - Male</h5>
+                            </div>
+
+                            <div class="col-md-3">
+                                <h5>Daily Activity - 30 Minutes</h5>
+                                <h5>Goal - Lose Weight </h5>
+                                <h5>Disease - No</h5>
+                                <h5>Food Allergies - No</h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                           <h4>History</h4><br>
+
+                            <div class="col-md-3">
+                                <h4>12/11/2017</h4>
+                                <h5>Height - 176 cm</h5>
+                                <h5>Weight - 76 Kg</h5>
+                                <h5>WaistSize - 34 inch</h5>
+                                <h5>HipSize - 36 inch</h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h4>12/12/2017</h4>
+                                <h5>Height - 176 cm</h5>
+                                <h5>Weight - 70 Kg</h5>
+                                <h5>WaistSize - 32 inch</h5>
+                                <h5>HipSize - 35 inch</h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h4>12/1/2018</h4>
+                                <h5>Height - 176 cm</h5>
+                                <h5>Weight - 70 Kg</h5>
+                                <h5>WaistSize - 32 inch</h5>
+                                <h5>HipSize - 35 inch</h5>
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>
+                            Create Recipe
+                        </legend>
+
+                        <div class="row">
+
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Select Date: <span class="symbol required"></span>
+                                </label><br>
+                                <div class="input-group range-picker">
+                                    <div class="start-date" ng-class="{'has-error':vm.Form.start.$dirty && vm.Form.start.$invalid, 'has-success':vm.Form.start.$valid}">
+                                        <input type="text" name="start" class="form-control" style="width:250px;"
+                                               uib-datepicker-popup="yyyy/MM/dd"
+                                               datepicker-options="vm.startDateOption" ng-model="vm.start" is-open="vm.startOpened"
+                                               ng-init="vm.startOpened = false;" ng-required="true" close-text="Close"
+                                               ng-click="vm.startOpen($event)" min-date="'1970-12-31'" max-date="vm.end" readonly />
+                                        <span class="error text-small block"
+                                              ng-if="vm.Form.start.$dirty && vm.Form.start.$error.required">Start Date is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    Select Meal Time: <span class="symbol required"></span>
+                                </label><br>
+                                <div class="input-group">
+                                    <select class="form-control" name="client" ng-model="regionCtrl.region.client.id"
+                                            ng-options="obj for obj in vm.clientData" ng-disabled=regionCtrl.disableDropDown
+                                            !=null required></select>
+                                    <span class="error text-small block"
+                                          ng-if="regionCtrl.form.client.$dirty && regionCtrl.form.client.$error.required">client is required</span>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Select Recipe: <span class="symbol required"></span>
+                                    </label><br>
+                                    <div class="input-group">
+                                        <select class="form-control" name="client" ng-model="regionCtrl.region.client.id"
+                                                ng-options="obj.name for obj in vm.ingredientList" ng-disabled=regionCtrl.disableDropDown
+                                                !=null required></select>
+                                        <span class="error text-small block"
+                                              ng-if="regionCtrl.form.client.$dirty && regionCtrl.form.client.$error.required">client is required</span>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-wide btn-success"
+                                        ng-click="vm.submit()">
+                                    Save
+                                </button>
+                                <button type="reset" class="btn btn-wide btn-warning"
+                                        ng-click="vm.reset()">
+                                    Reset
+                                </button>
+                                <a ui-sref="app.recipe.list" class="btn btn-wide btn-danger">
+                                    Back
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

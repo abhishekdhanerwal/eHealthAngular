@@ -10,6 +10,7 @@
         'app.coupon',
         'app.dietitian',
         'app.recipe',
-        'app.ingredient'
+        'app.ingredient',
+        'app.dietitianUser'
     ]);
 })();

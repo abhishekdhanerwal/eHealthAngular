@@ -1,0 +1,85 @@
+<div class="breadcrumb-wrapper" ng-click="vm.breadcrumbRoute()">
+    <h4 class="mainTitle no-margin">Consumer Management</h4>
+
+    <div ncy-breadcrumb class="pull-right"></div>
+</div>
+<!-- end: BREADCRUMB -->
+
+<!--<wave-spinner ng-show="vm.progress" ></wave-spinner>-->
+<!-- start: TABLE WITH PAGINATION -->
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-body">
+
+                    <div class="table-responsive">
+                        <table ng-table="vm.tableParams" show-filter="true" class="table table-striped">
+                            <!--<tr ng-repeat="row in $data">-->
+
+                                <td data-title="'Consumer Name'">
+                                    Roshan
+                                </td>
+                                <td data-title="'Consumer Email'">
+                                    roshan@gmail.com
+                                </td>
+                                <td data-title="'Consumer Mobile'">
+                                    9898989654
+                                </td>
+
+                                <td data-title="'Create Recipe'">
+                                    <a ui-sref="app.dietitianUserFullDetails" href="#"
+                                       class="btn btn-transparent btn-xs tooltips" tooltip-placement="top"
+                                       uib-tooltip="Recipes"><i class="fa fa-share"></i></a>
+                                </td>
+
+                                <!--<td data-title="'Status of Dietitians'">-->
+                                <!--<ul style="list-style: none">-->
+                                <!--<li ng-repeat="dietitian in row.hiredDietitians">-->
+                                <!--<span ng-if="!dietitian.active" class="text-warning"> Confirmation Pending </span>-->
+                                <!--<span ng-if="dietitian.active" class="text-success"> Working </span>-->
+                                <!--<span ng-if="dietitian.active && dietitian.feesSchedule[dietitian.feesSchedule.length-1].lastDateOfWork" class="text-warning"> Work completed </span>-->
+                                <!--</li>-->
+                                <!--</ul>-->
+                                <!--</td>-->
+
+                                <!--<td width="15%" class="center">-->
+                                <!--<div class="visible-md visible-lg hidden-sm hidden-xs">-->
+                                <!--<a ui-sref="app.product.edit({id : row._id})" class="btn btn-transparent btn-xs"-->
+                                <!--tooltip-placement="top"-->
+                                <!--uib-tooltip="View Consumers"><i class="fa fa-share"></i></a>-->
+                                <!--<a ui-sref="app.dietitian.edit({id : row._id})" class="btn btn-transparent btn-xs"-->
+                                <!--tooltip-placement="top"-->
+                                <!--uib-tooltip="Edit"><i class="fa fa-pencil"></i></a>-->
+                                <!--<a href="#" ng-click="vm.toggleDietitian(row._id)"-->
+                                <!--class="btn btn-transparent btn-xs tooltips" tooltip-placement="top"-->
+                                <!--uib-tooltip="Deactivate"><i class="fa fa-ban"></i></a>-->
+                                <!--</div>-->
+                                <!--<div class="visible-xs visible-sm hidden-md hidden-lg">-->
+                                <!--<div class="btn-group" uib-dropdown>-->
+                                <!--<button type="button" class="btn btn-primary btn-sm dropdown-toggle"-->
+                                <!--uib-dropdown-toggle>-->
+                                <!--<i class="fa fa-cog"></i>&nbsp;<span class="caret"></span>-->
+                                <!--</button>-->
+                                <!--<ul class="dropdown-menu pull-right dropdown-light" role="menu">-->
+                                <!--<li>-->
+                                <!--<a href="#" ui-sref="app.dietitian.user({id : row._id})"> View Consumers </a>-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                <!--<a href="#" ui-sref="app.dietitian.edit({id : row._id})"> Edit </a>-->
+                                <!--</li>-->
+                                <!--<li>-->
+                                <!--<a ng-click="vm.toggleDietitian(row._id)" href="#"> Deactivate </a>-->
+                                <!--</li>-->
+                                <!--</ul>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -95,6 +95,19 @@
             </li>
         </ul>
     </li>
+
+    <li ng-if="vm.isDietitianRole" ui-sref-active="active">
+        <a ui-sref="app.dietitianUsers">
+            <div class="item-content">
+                <div class="item-media">
+                    <letter-icon data="User Management" char-count="2" size="sm"></letter-icon>
+                </div>
+                <div class="item-inner">
+                    <span class="title"> User Management </span>
+                </div>
+            </div>
+        </a>
+    </li>
     <li ng-if="vm.isAdminRole" ui-sref-active="active">
         <a ui-sref="app.consumer">
             <div class="item-content">

@@ -231,6 +231,24 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
             ncyBreadcrumb: {
                 label: 'Consumer'
             }
+    }).state('app.dietitianUsers', {
+        url: "/dietitan/users",
+        templateUrl: "app/dietitan-user/dietitian-user.html",
+        controller: 'DietitianUsersCtrl',
+        controllerAs: 'vm',
+        title: 'Consumers',
+        ncyBreadcrumb: {
+            label: 'Consumers'
+        }
+    }).state('app.dietitianUserFullDetails', {
+        url: "/dietitan/users/details",
+        templateUrl: "app/dietitan-user/dietitian-user-details.html",
+        controller: 'DietitianUsersCtrl',
+        controllerAs: 'vm',
+        title: 'Consumers',
+        ncyBreadcrumb: {
+            label: 'Consumers'
+        }
     }).state('app.addVideo', {
         url: "/new",
         templateUrl: "app/channel/addNew.html",
